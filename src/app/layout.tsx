@@ -3,7 +3,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 
 export const metadata: Metadata = {
-  title: "Viewfinder — prototype review canvas",
+  title: "ViewFinder — prototype review canvas",
   description:
     "Frame a deployed prototype across phone, tablet, laptop, desktop, and wide breakpoints — with the spec beside the work.",
 };

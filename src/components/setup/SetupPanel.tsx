@@ -155,7 +155,7 @@ export function SetupPanel({
             {board ? "Edit board" : "Set up your board"}
           </h1>
           <p className="mt-0.5 text-[12.5px] text-ink-caption">
-            Point Viewfinder at a deployed prototype. Everything stays in this
+            Point ViewFinder at a deployed prototype. Everything stays in this
             browser — saved to localStorage, sent nowhere.
           </p>
         </div>

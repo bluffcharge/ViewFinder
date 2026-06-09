@@ -1,7 +1,7 @@
-# Viewfinder
+# ViewFinder
 
 A review canvas for deployed prototypes. Paste a Vercel (or any deployed)
-URL, list your screens, and Viewfinder frames them across five breakpoints —
+URL, list your screens, and ViewFinder frames them across five breakpoints —
 phone, tablet, laptop, desktop, and wide — with a filmstrip to walk the
 screens and your product spec pinned beside each one.
 
@@ -9,9 +9,9 @@ Built for design reviews: instead of resizing a browser window on a call,
 you click through real screens at real viewport sizes, with the requirements
 that screen is supposed to satisfy sitting right next to it.
 
-![Viewfinder reviewing the demo board](docs/screenshot.png)
+![ViewFinder reviewing the demo board](docs/screenshot.png)
 
-**Live demo:** [viewfinder-eta.vercel.app/?demo=1](https://viewfinder-eta.vercel.app/?demo=1)
+**Live demo:** [tryviewfinder.vercel.app/?demo=1](https://tryviewfinder.vercel.app/?demo=1)
 
 ## What it does
 
@@ -35,8 +35,8 @@ that screen is supposed to satisfy sitting right next to it.
 ## Quick start
 
 ```sh
-git clone https://github.com/bluffcharge/viewfinder
-cd viewfinder
+git clone https://github.com/bluffcharge/ViewFinder
+cd ViewFinder
 npm install
 npm run dev
 ```
@@ -97,7 +97,7 @@ still wins on machines where someone has saved their own board.
 
 ## The embed contract (optional)
 
-Viewfinder appends `?embed=1` to every framed URL. Your prototype can
+ViewFinder appends `?embed=1` to every framed URL. Your prototype can
 ignore it, or use it to hide its own dev chrome when framed. Two notes
 on iframes:
 

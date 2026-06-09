@@ -17,7 +17,7 @@ export function Welcome({
           <Frame size={20} strokeWidth={1.75} className="text-ink-title" />
         </div>
         <h1 className="text-[22px] font-semibold tracking-tight text-ink-title">
-          Viewfinder
+          ViewFinder
         </h1>
         <p
           className="mx-auto mt-2 max-w-[400px] text-[13.5px] leading-relaxed text-ink-body"

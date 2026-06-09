@@ -1,7 +1,7 @@
 /**
  * Board model + persistence.
  *
- * A board is everything Viewfinder needs to review one prototype: the
+ * A board is everything ViewFinder needs to review one prototype: the
  * deployed URL, the list of screens, and (optionally) the spec markdown
  * that annotates them. Boards live in localStorage — nothing is sent
  * anywhere. A repo can also ship a default board by committing
