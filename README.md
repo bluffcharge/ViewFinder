@@ -11,6 +11,8 @@ that screen is supposed to satisfy sitting right next to it.
 
 ![Viewfinder reviewing the demo board](docs/screenshot.png)
 
+**Live demo:** [viewfinder-eta.vercel.app/?demo=1](https://viewfinder-eta.vercel.app/?demo=1)
+
 ## What it does
 
 - **Five breakpoints, real rendering.** The iframe renders at the native
