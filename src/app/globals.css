@@ -1,0 +1,205 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   Viewfinder tokens — neutral zinc surfaces with a single blue accent.
+   Light is the default; dark opts in via [data-theme='dark'] on <html>.
+   ========================================================================== */
+
+:root {
+  /* ---------------- Surfaces ---------------- */
+  --surface-canvas:  #FFFFFF;
+  --surface-card:    rgba(255, 255, 255, 0.72);
+  --surface-subtle:  #FAFAFA;
+  --surface-raised:  #FFFFFF;
+  --surface-overlay: rgba(24, 24, 27, 0.55);
+  /* Stage chrome — a step quieter than the iframe's own canvas so the
+     previewed UI reads as a card on a desk. */
+  --surface-stage:   #F4F4F5;
+
+  /* Filmstrip selected state — 1px glass rim (masked gradient outline)
+     plus a soft lift, instead of a hard accent border. */
+  --film-active-rim:  linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(148,163,184,0.55) 42%, rgba(255,255,255,0.30) 62%, rgba(100,116,139,0.50) 100%);
+  --film-active-glow: 0 10px 26px -12px rgba(30,41,59,0.40), 0 0 0 1px rgba(255,255,255,0.55);
+
+  --border-default:  #E4E4E7;
+  --border-subtle:   rgba(228, 228, 231, 0.6);
+  --border-strong:   #3F3F46;
+
+  --text-default:    #71717A;
+  --text-title:      #18181B;
+  --text-body:       #52525B;
+  --text-subtitle:   #3F3F46;
+  --text-caption:    #71717A;
+  --text-disabled:   #A1A1AA;
+  --text-link:       #3B82F6;
+  --text-on-dark:    #FFFFFF;
+
+  --accent:      #3B82F6;
+  --accent-soft: rgba(59, 130, 246, 0.12);
+
+  --color-success: #059669;
+  --color-error:   #DA2B2C;
+  --color-warn:    #F6A623;
+
+  /* ---------------- Typography ---------------- */
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Cascadia Mono', monospace;
+
+  --fs-h2:      24px;
+  --fs-h3:      20px;
+  --fs-body-lg: 16px;
+  --fs-body:    14px;
+  --fs-caption: 11px;
+
+  --lh-snug:   1.2;
+  --lh-normal: 1.4;
+
+  --fw-regular:  400;
+  --fw-medium:   500;
+  --fw-semibold: 600;
+
+  /* ---------------- Radii ---------------- */
+  --radius-xs:   2px;
+  --radius-sm:   4px;
+  --radius-md:   6px;
+  --radius-lg:   8px;
+  --radius-xl:   12px;
+  --radius-2xl:  16px;
+  --radius-pill: 999px;
+
+  /* ---------------- Shadows — diffuse, long-throw lift ---------------- */
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 30px 60px -15px rgba(0, 0, 0, 0.10);
+  --shadow-lg: 0 100px 100px -50px rgba(0, 0, 0, 0.06),
+               0 25px 50px -12px rgba(228, 228, 231, 0.4);
+
+  /* ---------------- Motion ---------------- */
+  --ease-snap:     cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+
+  /* ---------------- Primary (ink) button ---------------- */
+  --btn-ink-bg:        #18181B;
+  --btn-ink-bg-hover:  #27272A;
+  --btn-ink-bg-active: #09090B;
+  --btn-ink-fg:        #FFFFFF;
+
+  --focus-ring:   0 0 0 3px rgba(59, 130, 246, 0.28);
+  --focus-border: #3B82F6;
+}
+
+[data-theme='dark'] {
+  --surface-canvas:  #101013;
+  --surface-card:    #1A1A1F;
+  --surface-subtle:  #222228;
+  --surface-raised:  #222228;
+  --surface-overlay: rgba(5, 5, 8, 0.75);
+  --surface-stage:   #08080A;
+
+  --film-active-rim:  linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.12) 38%, rgba(255,255,255,0.04) 62%, rgba(255,255,255,0.45) 100%);
+  --film-active-glow: 0 10px 28px -12px rgba(0,0,0,0.65), inset 0 1px 0 rgba(255,255,255,0.10);
+
+  --border-default:  rgba(255, 255, 255, 0.10);
+  --border-subtle:   rgba(255, 255, 255, 0.06);
+  --border-strong:   rgba(255, 255, 255, 0.18);
+
+  --text-default:    #D4D4D8;
+  --text-title:      #FFFFFF;
+  --text-body:       #D4D4D8;
+  --text-subtitle:   #9CA3AF;
+  --text-caption:    #9CA3AF;
+  --text-disabled:   #6B7280;
+  --text-link:       #60A5FA;
+
+  --accent:      #60A5FA;
+  --accent-soft: rgba(96, 165, 250, 0.14);
+
+  --shadow-md: 0 8px 24px 0 rgba(0, 0, 0, 0.45),
+               0 1px 2px 0 rgba(0, 0, 0, 0.40);
+  --shadow-lg: 0 16px 48px 0 rgba(0, 0, 0, 0.50),
+               0 8px 24px 0 rgba(0, 0, 0, 0.55);
+
+  /* Inverted ink button: white pill, dark text. */
+  --btn-ink-bg:        #FFFFFF;
+  --btn-ink-bg-hover:  #F4F4F5;
+  --btn-ink-bg-active: #E4E4E7;
+  --btn-ink-fg:        #18181B;
+
+  --focus-ring:   0 0 0 3px rgba(255, 255, 255, 0.07);
+  --focus-border: rgba(255, 255, 255, 0.6);
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+html, body {
+  font-family: var(--font-sans);
+  color: var(--text-default);
+  background: var(--surface-canvas);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button, input, textarea, select { font-family: inherit; }
+
+/* Type roles used by the canvas chrome */
+.t-caption {
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-snug);
+  color: var(--text-caption);
+}
+.t-mono-label {
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-caption);
+}
+
+/* Frosted card surfaces in light mode (rails, filmstrip tiles, menus).
+   Dark mode uses solid cards, so the blur is skipped there. */
+:root:not([data-theme='dark']) .bg-card,
+:root:not([data-theme='dark']) [class*='bg-card'] {
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+}
+
+/* Filmstrip selected card — the ::after paints a 1px gradient ring masked
+   to the border only, so it follows the rounded corners and stays
+   independent of the card fill / theme. */
+.film-active {
+  border-color: transparent !important;
+  box-shadow: var(--film-active-glow);
+}
+.film-active::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: var(--film-active-rim);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Focus visibility for keyboard users */
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* Safe-area helper for the sticky filmstrip on phones */
+.safe-pb { padding-bottom: max(env(safe-area-inset-bottom), 16px); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
