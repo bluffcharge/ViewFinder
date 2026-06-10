@@ -2,89 +2,127 @@
 
 import { useState } from "react";
 
+const INTERVALS = ["30 s", "2 min", "10 min"];
+
 export default function DemoSettings() {
-  const [name, setName] = useState("Orbit");
-  const [key, setKey] = useState("ORB");
-  const [notify, setNotify] = useState({
-    mentions: true,
-    statusChanges: true,
-    digests: false,
+  const [name, setName] = useState("Delta Pier");
+  const [stationId, setStationId] = useState("ATM-04");
+  const [interval, setInterval_] = useState("30 s");
+  const [alerts, setAlerts] = useState({
+    pm25: true,
+    offline: true,
+    digest: false,
   });
 
   return (
-    <div className="max-w-[560px] space-y-6">
+    <div className="max-w-[620px] space-y-5">
       <header>
-        <h1 className="text-[20px] font-semibold tracking-tight text-ink-title">
+        <p className="atmos-label">Station configuration</p>
+        <h1 className="atmos-display mt-1 text-[26px] leading-none">
           Settings
         </h1>
-        <p className="mt-1 text-[13px] text-ink-caption">
-          Project configuration. Toggles save immediately.
-        </p>
       </header>
 
-      <section className="rounded-xl border border-border bg-card p-4 shadow-sm">
-        <h2 className="t-mono-label mb-3">Project</h2>
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-[1fr_140px]">
+      <section className="atmos-card p-5">
+        <h2 className="atmos-label mb-3.5">Identity</h2>
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-[1fr_150px]">
           <label className="block">
-            <span className="text-[12px] font-medium text-ink-body">
-              Display name
-            </span>
+            <span className="atmos-label">Station name</span>
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="mt-1.5 h-9 w-full rounded-[12px] border border-border bg-canvas px-3 text-[13px] text-ink-body"
+              className="atmos-well-soft mt-1.5 h-9 w-full border-0 bg-transparent px-3 text-[12px]"
             />
           </label>
           <label className="block">
-            <span className="text-[12px] font-medium text-ink-body">Key</span>
+            <span className="atmos-label">ID</span>
             <input
               type="text"
-              value={key}
-              onChange={(e) => setKey(e.target.value)}
-              onBlur={() => setKey((k) => k.toUpperCase())}
-              className="mt-1.5 h-9 w-full rounded-[12px] border border-border bg-canvas px-3 font-mono text-[13px] uppercase text-ink-body"
+              value={stationId}
+              onChange={(e) => setStationId(e.target.value)}
+              onBlur={() => setStationId((v) => v.toUpperCase())}
+              className="atmos-well-soft mt-1.5 h-9 w-full border-0 bg-transparent px-3 text-[12px] uppercase tabular-nums"
             />
           </label>
         </div>
       </section>
 
-      <section className="rounded-xl border border-border bg-card p-4 shadow-sm">
-        <h2 className="t-mono-label mb-1.5">Notifications</h2>
-        <ul className="divide-y divide-border-subtle">
+      <section className="atmos-card p-5">
+        <h2 className="atmos-label mb-1.5">Sampling cadence</h2>
+        <p className="text-[11.5px] text-[color:var(--atmos-neutral)]">
+          How often the station reports. Shorter intervals drain the backup
+          cell faster during grid outages.
+        </p>
+        <div
+          role="radiogroup"
+          aria-label="Sampling cadence"
+          className="atmos-well-soft mt-3 inline-flex gap-1 rounded-full p-1"
+        >
+          {INTERVALS.map((v) => {
+            const active = v === interval;
+            return (
+              <button
+                key={v}
+                type="button"
+                role="radio"
+                aria-checked={active}
+                onClick={() => setInterval_(v)}
+                className={[
+                  "rounded-full px-3.5 py-1.5 text-[11px] font-medium uppercase tracking-[0.08em] transition-colors duration-150",
+                  active
+                    ? "bg-[#2A2A2A] text-[color:var(--atmos-mint)]"
+                    : "text-[color:var(--atmos-neutral)] hover:text-[color:var(--atmos-ink)]",
+                ].join(" ")}
+              >
+                {v}
+              </button>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="atmos-card p-5">
+        <h2 className="atmos-label mb-1.5">Alerts — write immediately</h2>
+        <ul className="divide-y divide-white/50">
           <Toggle
-            label="Mentions"
-            hint="Someone @-mentions you in a comment."
-            checked={notify.mentions}
-            onChange={(v) => setNotify((n) => ({ ...n, mentions: v }))}
+            label="PM2.5 watch threshold"
+            hint="Fires when any station holds above 20 µg/m³ for 10 minutes."
+            checked={alerts.pm25}
+            onChange={(v) => setAlerts((a) => ({ ...a, pm25: v }))}
           />
           <Toggle
-            label="Status changes"
-            hint="A task you're assigned to moves columns."
-            checked={notify.statusChanges}
-            onChange={(v) => setNotify((n) => ({ ...n, statusChanges: v }))}
+            label="Offline stations"
+            hint="Fires after three missed sync windows."
+            checked={alerts.offline}
+            onChange={(v) => setAlerts((a) => ({ ...a, offline: v }))}
           />
           <Toggle
-            label="Weekly digest"
-            hint="A summary every Monday morning."
-            checked={notify.digests}
-            onChange={(v) => setNotify((n) => ({ ...n, digests: v }))}
+            label="Daily digest"
+            hint="One summary at 08:00 — array health and overnight peaks."
+            checked={alerts.digest}
+            onChange={(v) => setAlerts((a) => ({ ...a, digest: v }))}
           />
         </ul>
       </section>
 
-      <section className="rounded-xl border border-error/30 bg-card p-4 shadow-sm">
-        <h2 className="t-mono-label mb-1.5 text-error">Danger zone</h2>
+      <section className="atmos-card border-[color:var(--atmos-accent)]/40 p-5">
+        <h2 className="atmos-label mb-1.5 text-[color:var(--atmos-accent)]">
+          Danger zone
+        </h2>
         <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
-          <p className="text-[12.5px] leading-relaxed text-ink-body">
-            Archiving hides <span className="font-semibold">{name || "this project"}</span>{" "}
-            from every member. Tasks are kept and restorable.
+          <p className="text-[11.5px] leading-relaxed text-[color:var(--atmos-neutral)]">
+            Decommissioning retires{" "}
+            <span className="font-medium text-[color:var(--atmos-ink)]">
+              {name || "this station"}
+            </span>{" "}
+            from the array. Historical readings are kept.
           </p>
           <button
             type="button"
-            className="inline-flex h-8 shrink-0 items-center rounded-[12px] border border-error/40 px-3 text-[12px] font-semibold text-error hover:bg-error/5"
+            className="atmos-well-soft shrink-0 rounded-[12px] px-3.5 py-2 text-[11px] font-medium uppercase tracking-[0.1em] text-[color:var(--atmos-accent)] hover:text-[color:var(--atmos-alarm)]"
           >
-            Archive {name || "project"}
+            Decommission {stationId || "station"}
           </button>
         </div>
       </section>
@@ -104,10 +142,12 @@ function Toggle({
   onChange: (v: boolean) => void;
 }) {
   return (
-    <li className="flex items-center justify-between gap-4 py-3">
+    <li className="flex items-center justify-between gap-4 py-3.5">
       <div>
-        <p className="text-[13px] font-medium text-ink-title">{label}</p>
-        <p className="mt-0.5 text-[11.5px] text-ink-caption">{hint}</p>
+        <p className="text-[12px] font-medium">{label}</p>
+        <p className="mt-0.5 text-[11px] text-[color:var(--atmos-neutral)]">
+          {hint}
+        </p>
       </div>
       <button
         type="button"
@@ -115,15 +155,14 @@ function Toggle({
         aria-checked={checked}
         aria-label={label}
         onClick={() => onChange(!checked)}
-        className={[
-          "relative h-6 w-10 shrink-0 rounded-pill transition-colors duration-fast ease-snap",
-          checked ? "bg-accent" : "bg-zinc-300 dark:bg-zinc-600",
-        ].join(" ")}
+        className="atmos-well-soft relative h-6 w-11 shrink-0 rounded-full"
       >
         <span
           className={[
-            "absolute top-0.5 h-5 w-5 rounded-pill bg-white shadow-sm transition-[left] duration-fast ease-snap",
-            checked ? "left-[18px]" : "left-0.5",
+            "absolute top-0.5 h-5 w-5 rounded-full shadow-[2px_2px_4px_rgba(160,155,140,0.6),-2px_-2px_4px_rgba(255,255,255,0.9)] transition-[left,background-color] duration-150",
+            checked
+              ? "left-[22px] bg-[color:var(--atmos-accent)]"
+              : "left-0.5 bg-[color:var(--atmos-surface)]",
           ].join(" ")}
         />
       </button>

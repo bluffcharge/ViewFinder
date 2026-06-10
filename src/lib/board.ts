@@ -160,67 +160,71 @@ export function groupPipClass(board: Board, group: string | undefined): string {
 /* app, so the canvas works before you've wired up your own prototype. */
 /* ------------------------------------------------------------------ */
 
-export const DEMO_SPEC = `# Orbit — review notes
+export const DEMO_SPEC = `# Atmos — review notes
 
-Demo spec for the Orbit screens. Sections below map to screens by their
+Demo spec for the Atmos screens. Sections below map to screens by their
 \`## heading\` — use the screen's title or its path. Everything here came
 from a plain markdown file; export from Notion (\`⋯ → Export → Markdown\`)
 or paste your own.
 
-## Dashboard
+## Console
 
-The at-a-glance view for a project lead checking in between meetings.
-
-### Key requirements
-
-- Four KPI tiles: open tasks, in review, shipped this week, and blocked — blocked reads in the warn color when nonzero.
-- Recent activity lists the last 6 events, newest first, with relative timestamps.
-- The tasks table sorts by the **Updated** column by default and collapses below tablet width.
-
-## Board
-
-Where the team actually works — tasks move left to right.
+The wall-screen view — array health and live air readings at a glance.
 
 ### Key requirements
 
-- Three fixed columns: Backlog, In progress, In review.
-- Cards carry a title, an assignee chip, and a priority pip; nothing else.
+- Arched AQI gauge is the hero: index value, banded status (Good / Watch / Alarm), and the dominant pollutant.
+- The signal band renders the array feed as a WebGL noise field — breathing pulse, pointer drift, static fallback when WebGL is unavailable.
+- Six readout wells: PM2.5, CO₂, NO₂, O₃, humidity, pressure — values in display type, units in mono labels.
+- Observations stream newest-first; threshold rows carry a **Watch** chip, never color alone.
+- Content widens with the viewport — desktop and wide use the horizontal real estate instead of a fixed column.
+
+## Stations
+
+The maintenance view — every deployed station by status.
+
+### Key requirements
+
+- Three columns by status: Online, Calibrating, Offline — counts in the column headers.
+- Cards carry name, ID, region, AQI, last sync, and an uptime track.
+- Offline stations read in the alarm color **and** say "No signal" in text.
 - Columns stack vertically on phones — horizontal scrolling is not acceptable on touch.
 
 ## Settings
 
-Project-level configuration; intentionally boring.
+Per-station configuration; intentionally calm.
 
 ### Key requirements
 
-- Display name and project key are editable; the key is uppercased on blur.
-- Notification toggles write immediately — no save button for toggles.
-- The danger zone is visually separated and the archive action names the project.
+- Name and ID are editable; the ID is uppercased on blur.
+- Sampling cadence is a segmented control — the active segment reads as carved-in.
+- Alert toggles write immediately — no save button for toggles.
+- The danger zone names the station being decommissioned; readings are kept.
 `;
 
 export const DEMO_BOARD: Board = {
-  name: "Orbit — demo board",
+  name: "Atmos — demo board",
   baseUrl: "",
   screens: [
     {
-      id: "demo-dashboard",
-      path: "/demo/dashboard",
-      title: "Dashboard",
-      subtitle: "KPIs · activity · task table",
-      group: "Overview",
+      id: "demo-console",
+      path: "/demo/console",
+      title: "Console",
+      subtitle: "AQI gauge · live signal · observations",
+      group: "Monitor",
     },
     {
-      id: "demo-board",
-      path: "/demo/board",
-      title: "Board",
-      subtitle: "Backlog · in progress · in review",
-      group: "Work",
+      id: "demo-stations",
+      path: "/demo/stations",
+      title: "Stations",
+      subtitle: "Online · calibrating · offline",
+      group: "Network",
     },
     {
       id: "demo-settings",
       path: "/demo/settings",
       title: "Settings",
-      subtitle: "Project · notifications · danger zone",
+      subtitle: "Identity · cadence · alerts",
       group: "Admin",
     },
   ],

@@ -1,0 +1,102 @@
+/* ==========================================================================
+   Atmospheric Data Console — demo-only theme, scoped under .atmos so it
+   never leaks into the ViewFinder chrome. Putty neumorphism: warm grey
+   canvas, raised + inset surfaces, coral accent, mint phosphor on the
+   dark panels, JetBrains Mono for interface copy.
+   ========================================================================== */
+
+.atmos {
+  --atmos-bg:           #A09D94;
+  --atmos-surface:      #DCD9CE;
+  --atmos-surface-dark: #2A2A2A;
+  --atmos-ink:          #3A3833;
+  --atmos-neutral:      #686660;
+  --atmos-accent:       #E15045;
+  --atmos-alarm:        #FF3333;
+  --atmos-mint:         #76D2B6;
+  --atmos-mint-dim:     rgba(118, 210, 182, 0.55);
+  --atmos-border:       rgba(255, 255, 255, 0.85);
+
+  font-family: var(--atmos-font-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: var(--atmos-ink);
+  background: var(--atmos-bg);
+}
+
+/* Inter for display moments only — numerals and screen titles. */
+.atmos-display {
+  font-family: var(--atmos-font-display), system-ui, sans-serif;
+  font-weight: 300;
+  letter-spacing: -0.025em;
+}
+
+.atmos-label {
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--atmos-neutral);
+}
+
+/* Raised card — the kit's outset recipe on the shared putty surface. */
+.atmos-card {
+  background: var(--atmos-surface);
+  border: 1px solid var(--atmos-border);
+  border-radius: 24px;
+  box-shadow:
+    6px 6px 14px rgba(160, 155, 140, 0.6),
+    -6px -6px 14px rgba(255, 255, 255, 0.9),
+    1px 1px 2px rgba(180, 175, 160, 0.3);
+}
+
+/* Carved well — deep inset for readouts, tracks, and active states. */
+.atmos-well {
+  background: var(--atmos-surface);
+  border-radius: 12px;
+  box-shadow:
+    inset 8px 8px 16px rgba(160, 155, 140, 0.6),
+    inset -4px -4px 12px rgba(255, 255, 255, 0.9),
+    inset 2px 2px 4px rgba(180, 175, 160, 0.3);
+}
+
+/* Soft inset — form fields and quiet wells. */
+.atmos-well-soft {
+  background: var(--atmos-surface);
+  border-radius: 12px;
+  box-shadow:
+    inset 0 2px 4px rgba(255, 255, 255, 0.8),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.05),
+    inset 2px 2px 6px rgba(160, 155, 140, 0.35);
+}
+
+/* Dark terminal panel — mint phosphor lives here, never on putty. */
+.atmos-dark {
+  background: var(--atmos-surface-dark);
+  color: var(--atmos-mint);
+  border-radius: 24px;
+  box-shadow:
+    inset 1px 1px 2px rgba(255, 255, 255, 0.2),
+    inset -1px -1px 2px rgba(0, 0, 0, 0.8),
+    6px 6px 14px rgba(160, 155, 140, 0.6),
+    -6px -6px 14px rgba(255, 255, 255, 0.9);
+}
+
+/* Kit signature: the arched card (radius 140px top). */
+.atmos-arch {
+  border-radius: 140px 140px 24px 24px;
+}
+
+.atmos input,
+.atmos select,
+.atmos textarea {
+  font-family: inherit;
+  color: var(--atmos-ink);
+}
+
+.atmos ::placeholder {
+  color: rgba(104, 102, 96, 0.55);
+}
+
+.atmos :focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(225, 80, 69, 0.35);
+}

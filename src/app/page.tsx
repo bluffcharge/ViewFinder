@@ -45,15 +45,16 @@ export default function Home() {
     if (storedViewport && VIEWPORTS[storedViewport]) setViewportState(storedViewport);
     setLeftCollapsedState(localStorage.getItem(LEFT_RAIL_KEY) === "1");
 
+    // ?demo=1 deep-links straight into the demo board (without saving it).
+    // It outranks a stored board so a shared demo link always shows the
+    // demo, even on machines that have their own board saved.
+    if (new URLSearchParams(window.location.search).has("demo")) {
+      setBoard(DEMO_BOARD);
+      return;
+    }
     const stored = loadStoredBoard();
     if (stored) {
       setBoard(stored);
-      return;
-    }
-    // ?demo=1 deep-links straight into the demo board (without saving it),
-    // so a hosted instance can be shared mid-walkthrough.
-    if (new URLSearchParams(window.location.search).has("demo")) {
-      setBoard(DEMO_BOARD);
       return;
     }
     let cancelled = false;
