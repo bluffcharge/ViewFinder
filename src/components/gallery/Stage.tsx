@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Maximize2, Minimize2 } from "lucide-react";
+import { FileText, Maximize2, Minimize2 } from "lucide-react";
 import { SourceLinksMenu } from "@/components/gallery/SourceLinksMenu";
 import type { ViewportSpec } from "@/lib/viewports";
 
@@ -12,6 +12,7 @@ export function Stage({
   onToggleExpanded,
   sourceLinks,
   repoUrl,
+  onOpenSpec,
 }: {
   iframeSrc: string;
   spec: ViewportSpec;
@@ -19,6 +20,8 @@ export function Stage({
   onToggleExpanded: () => void;
   sourceLinks?: string[];
   repoUrl?: string;
+  /** Opens the mobile spec sheet — the rail is hidden below md. */
+  onOpenSpec?: () => void;
 }) {
   const ExpandIcon = expanded ? Minimize2 : Maximize2;
   const expandLabel = expanded ? "Exit expanded view" : "Expand canvas (Esc to exit)";
@@ -26,7 +29,18 @@ export function Stage({
     <main className="flex flex-1 flex-col overflow-hidden">
       {/* Canvas toolbar — Source dropdown (only when the active screen has
           source links) sits to the left of Expand; Expand is right-aligned. */}
-      <div className="flex items-center justify-end gap-1.5 border-b border-border-subtle px-4 py-2.5">
+      <div className="flex items-center justify-end gap-1.5 border-b border-border-subtle px-3 py-2.5 sm:px-4">
+        {onOpenSpec && (
+          <button
+            type="button"
+            onClick={onOpenSpec}
+            className="mr-auto inline-flex h-8 items-center gap-1.5 rounded-[12px] border border-border bg-card px-2.5 text-[12px] font-medium text-ink-body hover:bg-subtle md:hidden"
+            title="Show spec context"
+          >
+            <FileText size={12} strokeWidth={1.75} />
+            Spec
+          </button>
+        )}
         <SourceLinksMenu links={sourceLinks} repoUrl={repoUrl} />
         <button
           type="button"
@@ -39,7 +53,7 @@ export function Stage({
           {expanded ? "Collapse" : "Expand"}
         </button>
       </div>
-      <div className="mx-auto flex w-full max-w-[1480px] flex-1 flex-col overflow-hidden px-5 pb-2 pt-3">
+      <div className="mx-auto flex w-full max-w-[1480px] flex-1 flex-col overflow-hidden px-3 pb-2 pt-3 sm:px-5">
         <ViewportFrame src={iframeSrc} spec={spec} />
       </div>
     </main>

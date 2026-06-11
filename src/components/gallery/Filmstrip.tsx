@@ -25,7 +25,7 @@ export function Filmstrip({
   const screens = board.screens;
   return (
     <footer className="safe-pb sticky bottom-0 z-10 border-t border-border-subtle bg-[color:var(--surface-stage)]/95 backdrop-blur-[8px]">
-      <div className="mx-auto flex w-full max-w-[1640px] items-stretch gap-2 px-4 py-3">
+      <div className="mx-auto flex w-full max-w-[1640px] items-stretch gap-2 px-2 py-3 sm:px-4">
         <ArrowButton dir="prev" onClick={onPrev} disabled={activeIndex === 0} />
 
         <div
@@ -76,7 +76,7 @@ function ArrowButton({
       onClick={onClick}
       disabled={disabled}
       aria-label={dir === "prev" ? "Previous screen" : "Next screen"}
-      className="inline-flex h-20 w-9 shrink-0 items-center justify-center self-center rounded-xl border border-border bg-card text-ink-body shadow-xs transition-colors duration-fast ease-snap hover:bg-subtle disabled:cursor-not-allowed disabled:opacity-40"
+      className="hidden h-20 w-9 shrink-0 items-center justify-center self-center rounded-xl border border-border bg-card text-ink-body shadow-xs transition-colors duration-fast ease-snap hover:bg-subtle disabled:cursor-not-allowed disabled:opacity-40 sm:inline-flex"
     >
       <Icon size={16} strokeWidth={1.75} />
     </button>

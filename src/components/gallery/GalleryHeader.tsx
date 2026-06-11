@@ -31,10 +31,12 @@ export function GalleryHeader({
     theme === "dark" ? "Switch to light theme" : "Switch to dark theme";
   return (
     <header className="border-b border-border-subtle">
-      {/* 3-column grid: left = active screen; center = viewport switcher;
-          right = actions. */}
-      <div className="grid w-full grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-2.5">
-        <div className="flex min-w-0 items-baseline gap-2">
+      {/* sm+: 3-column grid — active screen | viewport switcher | actions.
+          Below sm: flex-wrap two rows — (screen + actions) over a
+          full-width centered switcher. order-* applies only to the flex
+          layout; sm:order-none restores document order for the grid. */}
+      <div className="flex w-full flex-wrap items-center gap-x-3 gap-y-2 px-3 py-2.5 sm:grid sm:grid-cols-[1fr_auto_1fr] sm:px-4">
+        <div className="order-1 flex min-w-0 flex-1 items-baseline gap-2 sm:order-none">
           <span className="t-mono-label">Now</span>
           <span className="truncate text-[14px] font-semibold text-ink-title">
             {title}
@@ -44,19 +46,20 @@ export function GalleryHeader({
           </code>
         </div>
 
-        <div className="justify-self-center">
+        <div className="order-3 flex w-full justify-center sm:order-none sm:w-auto sm:justify-self-center">
           <ViewportSwitcher value={viewport} onChange={onViewportChange} />
         </div>
 
-        <div className="flex items-center justify-end gap-1.5">
+        <div className="order-2 flex items-center justify-end gap-1.5 sm:order-none">
           <button
             type="button"
             onClick={onReset}
             className="inline-flex h-8 items-center gap-1.5 rounded-[12px] border border-border bg-card px-2.5 text-[12px] font-medium text-ink-body hover:bg-subtle"
             title="Reload this screen"
+            aria-label="Reload this screen"
           >
             <RotateCcw size={12} strokeWidth={1.75} />
-            Reset
+            <span className="hidden sm:inline">Reset</span>
           </button>
           <a
             href={href}
@@ -64,18 +67,20 @@ export function GalleryHeader({
             rel="noreferrer"
             className="inline-flex h-8 items-center gap-1.5 rounded-[12px] border border-border bg-card px-2.5 text-[12px] font-medium text-ink-body hover:bg-subtle"
             title="Open in a new tab"
+            aria-label="Open in a new tab"
           >
             <ExternalLink size={12} strokeWidth={1.75} />
-            Open
+            <span className="hidden sm:inline">Open</span>
           </a>
           <button
             type="button"
             onClick={onEditBoard}
             className="inline-flex h-8 items-center gap-1.5 rounded-[12px] border border-border bg-card px-2.5 text-[12px] font-medium text-ink-body hover:bg-subtle"
             title="Edit board — URL, screens, spec"
+            aria-label="Edit board"
           >
             <Settings2 size={12} strokeWidth={1.75} />
-            Board
+            <span className="hidden sm:inline">Board</span>
           </button>
           <button
             type="button"

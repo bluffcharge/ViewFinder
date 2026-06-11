@@ -1,10 +1,14 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { FileText, X } from "lucide-react";
 import { GalleryHeader } from "@/components/gallery/GalleryHeader";
 import { Stage } from "@/components/gallery/Stage";
 import { Filmstrip } from "@/components/gallery/Filmstrip";
-import { RequirementsRail } from "@/components/gallery/RequirementsRail";
+import {
+  RequirementsRail,
+  SpecContent,
+} from "@/components/gallery/RequirementsRail";
 import { SetupPanel } from "@/components/setup/SetupPanel";
 import { Welcome } from "@/components/setup/Welcome";
 import {
@@ -26,6 +30,8 @@ export default function Home() {
   // null = no board yet (welcome); undefined = still hydrating.
   const [board, setBoard] = useState<Board | null | undefined>(undefined);
   const [setupOpen, setSetupOpen] = useState(false);
+  // Mobile-only spec sheet — the rail is hidden below md.
+  const [specOpen, setSpecOpen] = useState(false);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [viewport, setViewportState] = useState<Viewport>("desktop");
   const [resetTick, setResetTick] = useState(0);
@@ -42,7 +48,13 @@ export default function Home() {
   // starts the walkthrough from screen 1.
   useEffect(() => {
     const storedViewport = localStorage.getItem(VIEWPORT_STORAGE_KEY) as Viewport | null;
-    if (storedViewport && VIEWPORTS[storedViewport]) setViewportState(storedViewport);
+    if (storedViewport && VIEWPORTS[storedViewport]) {
+      setViewportState(storedViewport);
+    } else if (window.matchMedia("(max-width: 767px)").matches) {
+      // First visit on a phone: preview at phone size, not a shrunken
+      // desktop frame. Explicit switcher choices persist as usual.
+      setViewportState("phone");
+    }
     setLeftCollapsedState(localStorage.getItem(LEFT_RAIL_KEY) === "1");
 
     // ?demo=1 deep-links straight into the demo board (without saving it).
@@ -133,6 +145,11 @@ export default function Home() {
       )
         return;
       if (setupOpen) return;
+      if (e.key === "Escape" && specOpen) {
+        e.preventDefault();
+        setSpecOpen(false);
+        return;
+      }
       if (e.key === "Escape" && expanded) {
         e.preventDefault();
         setExpanded(false);
@@ -153,7 +170,7 @@ export default function Home() {
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [goPrev, goNext, viewport, setViewport, expanded, setupOpen]);
+  }, [goPrev, goNext, viewport, setViewport, expanded, setupOpen, specOpen]);
 
   const activeHref = board && active ? screenHref(board, active) : "";
   const iframeSrc = useMemo(() => {
@@ -202,16 +219,20 @@ export default function Home() {
       />
 
       <div className="flex flex-1 overflow-hidden">
+        {/* The rail only exists from md up; phones get the spec sheet.
+            `md:contents` keeps the aside a direct flex child. */}
         {!expanded && (
-          <RequirementsRail
-            section={section}
-            intro={spec?.intro ?? ""}
-            hasSpec={!!spec}
-            routeTitle={active.title}
-            subtitle={active.subtitle}
-            collapsed={leftCollapsed}
-            onToggle={toggleLeft}
-          />
+          <div className="hidden md:contents">
+            <RequirementsRail
+              section={section}
+              intro={spec?.intro ?? ""}
+              hasSpec={!!spec}
+              routeTitle={active.title}
+              subtitle={active.subtitle}
+              collapsed={leftCollapsed}
+              onToggle={toggleLeft}
+            />
+          </div>
         )}
         <Stage
           iframeSrc={iframeSrc}
@@ -220,6 +241,7 @@ export default function Home() {
           onToggleExpanded={() => setExpanded((e) => !e)}
           sourceLinks={active.sourceLinks}
           repoUrl={board.repoUrl}
+          onOpenSpec={() => setSpecOpen(true)}
         />
       </div>
 
@@ -234,6 +256,47 @@ export default function Home() {
           stripRef={stripRef}
           cardRefs={cardRefs}
         />
+      )}
+
+      {specOpen && (
+        <div
+          className="fixed inset-0 z-40 md:hidden"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Spec context"
+        >
+          <button
+            type="button"
+            aria-label="Close spec"
+            onClick={() => setSpecOpen(false)}
+            className="absolute inset-0 bg-overlay"
+          />
+          <div className="absolute inset-x-0 bottom-0 flex max-h-[78dvh] flex-col rounded-t-2xl border-t border-border bg-canvas shadow-lg">
+            <header className="flex items-center justify-between border-b border-border-subtle px-4 py-3">
+              <div className="flex items-center gap-2">
+                <FileText size={13} strokeWidth={1.75} className="text-ink-caption" />
+                <p className="t-mono-label">From the spec</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setSpecOpen(false)}
+                aria-label="Close"
+                className="grid h-8 w-8 place-items-center rounded-md text-ink-caption hover:bg-subtle hover:text-ink-body"
+              >
+                <X size={15} strokeWidth={1.75} />
+              </button>
+            </header>
+            <div className="safe-pb flex-1 overflow-y-auto px-4 py-4">
+              <SpecContent
+                section={section}
+                intro={spec?.intro ?? ""}
+                hasSpec={!!spec}
+                routeTitle={active.title}
+                subtitle={active.subtitle}
+              />
+            </div>
+          </div>
+        </div>
       )}
 
       {setupOpen && (
