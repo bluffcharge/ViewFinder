@@ -28,8 +28,8 @@ export default function DemoConsole() {
         <div className="atmos-card atmos-arch flex flex-col items-center px-6 pb-6 pt-10 text-center">
           <p className="atmos-label">Air quality index</p>
           <p className="atmos-display mt-3 text-[72px] leading-[72px]">42</p>
-          <span className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-[#2A2A2A] px-3 py-1 text-[10.5px] font-medium uppercase tracking-[0.12em] text-[color:var(--atmos-mint)]">
-            <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-[color:var(--atmos-mint)]" />
+          <span className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-[#2A2A2A] px-3 py-1 text-[10.5px] font-medium uppercase tracking-[0.12em] text-[color:var(--atmos-signal)]">
+            <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-[color:var(--atmos-signal)]" />
             Good
           </span>
           <p className="atmos-label mt-4">PM2.5 dominant · 12.4 µg/m³</p>
@@ -41,7 +41,7 @@ export default function DemoConsole() {
             <p className="text-[10.5px] font-medium uppercase tracking-[0.14em]">
               Live signal — particulate haze · 8 stations
             </p>
-            <div className="flex flex-wrap gap-x-6 gap-y-1 text-[10.5px] uppercase tracking-[0.12em] text-[color:var(--atmos-mint-dim)]">
+            <div className="flex flex-wrap gap-x-6 gap-y-1 text-[10.5px] uppercase tracking-[0.12em] text-[color:var(--atmos-signal-dim)]">
               <span>Feed · 2 Hz</span>
               <span>Drift · pointer</span>
               <span>Pulse · 0.3 rad/s</span>

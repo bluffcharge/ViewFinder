@@ -138,11 +138,11 @@ export function boardToJson(board: Board): string {
 
 const PIP_CLASSES = [
   "bg-blue-500",
-  "bg-emerald-500",
-  "bg-amber-500",
   "bg-violet-500",
+  "bg-amber-500",
   "bg-pink-500",
   "bg-cyan-500",
+  "bg-indigo-500",
 ];
 
 export function groupPipClass(board: Board, group: string | undefined): string {

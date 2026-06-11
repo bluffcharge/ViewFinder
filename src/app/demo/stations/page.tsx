@@ -73,7 +73,7 @@ function StationCard({ station }: { station: Station }) {
                 ? "bg-[color:var(--atmos-alarm)]/70"
                 : station.status === "Calibrating"
                 ? "bg-[color:var(--atmos-neutral)]/70"
-                : "bg-[color:var(--atmos-mint)]",
+                : "bg-[color:var(--atmos-signal)]",
             ].join(" ")}
             style={{ width: `${station.uptime}%` }}
           />
@@ -87,7 +87,7 @@ function StationCard({ station }: { station: Station }) {
 function StatusPip({ status }: { status: StationStatus }) {
   const cls =
     status === "Online"
-      ? "bg-[color:var(--atmos-mint)]"
+      ? "bg-[color:var(--atmos-signal)]"
       : status === "Calibrating"
       ? "bg-[color:var(--atmos-neutral)]"
       : "bg-[color:var(--atmos-alarm)]";

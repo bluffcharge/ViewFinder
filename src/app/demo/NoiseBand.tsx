@@ -3,8 +3,8 @@
 import { useEffect, useRef } from "react";
 
 /**
- * The kit's "wide canvas band": a WebGL noise-haze field — green phosphor
- * on near-black — breathing on a slow pulse, drifting subtly toward the
+ * The kit's "wide canvas band": a WebGL noise-haze field — electric-blue
+ * phosphor on near-black — breathing on a slow pulse, drifting subtly toward the
  * pointer. Falls back to a static gradient when WebGL is unavailable,
  * and renders a single still frame under prefers-reduced-motion.
  */
@@ -71,8 +71,8 @@ export function NoiseBand({ className }: { className?: string }) {
         float glow = smoothstep(0.26, 0.78, n) * breath;
         // Sparse bright motes riding the haze.
         float motes = smoothstep(0.94, 1.0, noise(q * 7.0 + u_t * 0.05)) * breath;
-        vec3 base = vec3(0.045, 0.058, 0.052);
-        vec3 phosphor = vec3(0.29, 0.66, 0.54);
+        vec3 base = vec3(0.035, 0.048, 0.075);
+        vec3 phosphor = vec3(0.34, 0.72, 1.0);
         vec3 col = base + glow * phosphor * 0.72 + motes * phosphor * 0.9;
         // CRT scanline whisper + edge vignette.
         col *= 0.94 + 0.06 * sin(gl_FragCoord.y * 1.6);
@@ -163,7 +163,7 @@ export function NoiseBand({ className }: { className?: string }) {
         className="absolute inset-0 opacity-0"
         style={{
           background:
-            "radial-gradient(120% 90% at 30% 40%, rgba(118,210,182,0.22) 0%, transparent 55%), radial-gradient(90% 80% at 75% 70%, rgba(118,210,182,0.12) 0%, transparent 60%), #0B0F0E",
+            "radial-gradient(120% 90% at 30% 40%, rgba(87,183,255,0.22) 0%, transparent 55%), radial-gradient(90% 80% at 75% 70%, rgba(87,183,255,0.12) 0%, transparent 60%), #080C14",
         }}
       />
     </div>

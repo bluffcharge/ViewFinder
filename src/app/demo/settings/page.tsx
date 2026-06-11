@@ -71,7 +71,7 @@ export default function DemoSettings() {
                 className={[
                   "rounded-full px-3.5 py-1.5 text-[11px] font-medium uppercase tracking-[0.08em] transition-colors duration-150",
                   active
-                    ? "bg-[#2A2A2A] text-[color:var(--atmos-mint)]"
+                    ? "bg-[#2A2A2A] text-[color:var(--atmos-signal)]"
                     : "text-[color:var(--atmos-neutral)] hover:text-[color:var(--atmos-ink)]",
                 ].join(" ")}
               >
@@ -159,7 +159,7 @@ function Toggle({
       >
         <span
           className={[
-            "absolute top-0.5 h-5 w-5 rounded-full shadow-[2px_2px_4px_rgba(160,155,140,0.6),-2px_-2px_4px_rgba(255,255,255,0.9)] transition-[left,background-color] duration-150",
+            "absolute top-0.5 h-5 w-5 rounded-full shadow-[2px_2px_4px_rgba(160,155,140,0.6),-2px_-2px_4px_rgba(255,255,255,0.25)] transition-[left,background-color] duration-150",
             checked
               ? "left-[22px] bg-[color:var(--atmos-accent)]"
               : "left-0.5 bg-[color:var(--atmos-surface)]",
