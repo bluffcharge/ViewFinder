@@ -24,7 +24,12 @@ export default function DemoLayout({
   const pathname = usePathname();
   const links = [
     { href: "/demo/console", label: "Core" },
+    { href: "/demo/specimen", label: "Specimen" },
     { href: "/demo/stations", label: "Nodes" },
+    { href: "/demo/telemetry", label: "Telemetry" },
+    { href: "/demo/alerts", label: "Alerts" },
+    { href: "/demo/grid", label: "Grid" },
+    { href: "/demo/access", label: "Access" },
     { href: "/demo/settings", label: "Config" },
   ];
   return (
@@ -37,7 +42,7 @@ export default function DemoLayout({
             </span>
             <span className="aexis-label hidden sm:inline">Plasma core</span>
           </span>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1 overflow-x-auto">
             {links.map((l) => {
               const active = pathname === l.href;
               return (
