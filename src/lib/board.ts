@@ -174,7 +174,7 @@ The wall-screen view — lattice health and live plasma telemetry at a glance.
 ### Key requirements
 
 - The output gauge is the hero: net megawatts, a glowing **Nominal** status pill, and the sustained Q factor.
-- The field panel renders the plasma feed as an ambient shader — slow breathing pulse, pointer drift, static fallback when WebGL is unavailable.
+- The field panel renders specimen IG-77 as a raymarched SDF blob — viscous bronze mass, white specular bloom, blue-violet iridescent rim. Dragging the cursor raises a lobe that relaxes back over ~1.5s; slow breathing pulse and tumble underneath. Static fallback when WebGL is unavailable.
 - Six readout wells: density, ion temp, field, confinement, net output, Q factor — values in display type, units in mono labels.
 - Telemetry streams newest-first; threshold rows carry a **Watch** chip, never color alone.
 - Glass surfaces sit inside 1px gradient border shells; radii stay in the 1px / 4px / pill family.

@@ -1,4 +1,4 @@
-import { NoiseBand } from "@/app/demo/NoiseBand";
+import { PlasmaBlob } from "@/app/demo/PlasmaBlob";
 import { EVENTS, READINGS } from "@/app/demo/data";
 
 const KPIS = [
@@ -40,13 +40,13 @@ export default function DemoConsole() {
 
         <div className="aexis-shell">
           <div className="aexis-card relative min-h-[260px] overflow-hidden md:min-h-0 md:h-full">
-            <NoiseBand className="absolute inset-0" />
+            <PlasmaBlob className="absolute inset-0" />
             <div className="pointer-events-none absolute inset-0 z-[1] flex flex-col justify-between p-3">
               <p className="aexis-label text-[color:var(--ax-secondary)]">
-                Live field — plasma flux · 8 nodes
+                Specimen IG-77 — drag cursor to perturb plasma
               </p>
               <div className="flex flex-wrap gap-x-6 gap-y-1">
-                {["Feed · 2 Hz", "Drift · pointer", "Pulse · slow breathe", "Render · shaders"].map(
+                {["Feed · 2 Hz", "Perturb · pointer", "Pulse · slow breathe", "Render · SDF raymarch"].map(
                   (s, i) => (
                     <span
                       key={s}
