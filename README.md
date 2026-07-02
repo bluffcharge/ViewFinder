@@ -123,5 +123,9 @@ auth, no analytics.
 
 ## License
 
-[MIT](LICENSE). If you use this for your own reviews, I'd genuinely like
-to hear how it goes — open an issue or find me on LinkedIn.
+[ViewFinder Honor License](LICENSE) — source-available, free for
+personal use, education, and evaluation. If it becomes part of how your
+team ships paid work, it carries a small royalty (suggested $49/team/
+year) on the honor system: no keys, no telemetry, nobody checking. Say
+hello on LinkedIn or open an issue and we'll sort it out — hearing what
+you're using it for counts for a lot.
