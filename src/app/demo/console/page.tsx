@@ -2,154 +2,171 @@ import { NoiseBand } from "@/app/demo/NoiseBand";
 import { EVENTS, READINGS } from "@/app/demo/data";
 
 const KPIS = [
-  { label: "PM2.5", value: "12.4", unit: "µg/m³" },
-  { label: "CO₂", value: "421", unit: "ppm" },
-  { label: "NO₂", value: "18", unit: "ppb" },
-  { label: "O₃", value: "31", unit: "ppb" },
-  { label: "Humidity", value: "64", unit: "%RH" },
-  { label: "Pressure", value: "1013", unit: "hPa" },
+  { label: "Density", value: "1.24", unit: "×10²⁰ m⁻³" },
+  { label: "Ion temp", value: "12.1", unit: "keV" },
+  { label: "Field", value: "5.2", unit: "T" },
+  { label: "Confinement", value: "640", unit: "ms" },
+  { label: "Net output", value: "312", unit: "MW" },
+  { label: "Q factor", value: "1.8", unit: "ratio" },
 ];
 
 export default function DemoConsole() {
   return (
-    <div className="space-y-5">
-      <header className="flex flex-wrap items-end justify-between gap-3">
+    <div className="space-y-3">
+      <header className="flex flex-wrap items-end justify-between gap-2">
         <div>
-          <p className="atmos-label">Sector 7 — coastal array</p>
-          <h1 className="atmos-display mt-1 text-[26px] leading-none">
-            Console
-          </h1>
+          <p className="aexis-label">Ring A — containment lattice</p>
+          <h1 className="aexis-display text-[30px] leading-[36px]">Core</h1>
         </div>
-        <p className="atmos-label">Updated 14:32:08 · 7 / 8 stations reporting</p>
+        <p className="aexis-label">Updated 14:32:08 · 7 / 8 nodes reporting</p>
       </header>
 
-      {/* Hero — arched AQI gauge beside the live signal band. */}
-      <section className="grid grid-cols-1 gap-4 md:grid-cols-[260px_1fr]">
-        <div className="atmos-card atmos-arch flex flex-col items-center px-6 pb-6 pt-10 text-center">
-          <p className="atmos-label">Air quality index</p>
-          <p className="atmos-display mt-3 text-[72px] leading-[72px]">42</p>
-          <span className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-[#2A2A2A] px-3 py-1 text-[10.5px] font-medium uppercase tracking-[0.12em] text-[color:var(--atmos-signal)]">
-            <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-[color:var(--atmos-signal)]" />
-            Good
-          </span>
-          <p className="atmos-label mt-4">PM2.5 dominant · 12.4 µg/m³</p>
+      {/* Hero — output gauge beside the live plasma field. */}
+      <section className="grid grid-cols-1 gap-2 md:grid-cols-[260px_1fr]">
+        <div className="aexis-shell">
+          <div className="aexis-card flex h-full flex-col items-center px-3 py-8 text-center">
+            <p className="aexis-label">Core output</p>
+            <p className="aexis-display mt-3 text-[64px] leading-[64px]">312</p>
+            <span className="aexis-glow mt-4 inline-flex items-center gap-1.5 rounded-full border border-[color:var(--ax-primary)]/60 px-3 py-1 text-[10.4px] uppercase tracking-[0.1em] text-[color:var(--ax-primary)]">
+              <span
+                aria-hidden="true"
+                className="aexis-pulse h-1.5 w-1.5 rounded-full bg-[color:var(--ax-primary)]"
+              />
+              Nominal
+            </span>
+            <p className="aexis-label mt-4">Megawatts net · Q 1.8 sustained</p>
+          </div>
         </div>
 
-        <div className="atmos-dark relative min-h-[260px] md:min-h-0">
-          <NoiseBand className="absolute inset-0 rounded-[24px]" />
-          <div className="pointer-events-none relative z-[1] flex h-full flex-col justify-between p-5">
-            <p className="text-[10.5px] font-medium uppercase tracking-[0.14em]">
-              Live signal — particulate haze · 8 stations
-            </p>
-            <div className="flex flex-wrap gap-x-6 gap-y-1 text-[10.5px] uppercase tracking-[0.12em] text-[color:var(--atmos-signal-dim)]">
-              <span>Feed · 2 Hz</span>
-              <span>Drift · pointer</span>
-              <span>Pulse · 0.3 rad/s</span>
-              <span className="hidden sm:inline">Render · WebGL</span>
+        <div className="aexis-shell">
+          <div className="aexis-card relative min-h-[260px] overflow-hidden md:min-h-0 md:h-full">
+            <NoiseBand className="absolute inset-0" />
+            <div className="pointer-events-none absolute inset-0 z-[1] flex flex-col justify-between p-3">
+              <p className="aexis-label text-[color:var(--ax-secondary)]">
+                Live field — plasma flux · 8 nodes
+              </p>
+              <div className="flex flex-wrap gap-x-6 gap-y-1">
+                {["Feed · 2 Hz", "Drift · pointer", "Pulse · slow breathe", "Render · shaders"].map(
+                  (s, i) => (
+                    <span
+                      key={s}
+                      className={`aexis-label ${i === 3 ? "hidden sm:inline" : ""}`}
+                    >
+                      {s}
+                    </span>
+                  )
+                )}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Readout wells */}
-      <section className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-6">
+      <section className="grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-6">
         {KPIS.map((k) => (
-          <div key={k.label} className="atmos-well px-4 py-3.5">
-            <p className="atmos-label">{k.label}</p>
+          <div key={k.label} className="aexis-well px-3 py-3">
+            <p className="aexis-label">{k.label}</p>
             <p className="mt-1.5 flex items-baseline gap-1.5">
-              <span className="atmos-display text-[26px] leading-none">
+              <span className="aexis-display text-[24px] leading-none">
                 {k.value}
               </span>
-              <span className="atmos-label normal-case tracking-[0.06em]">
-                {k.unit}
-              </span>
+              <span className="aexis-label">{k.unit}</span>
             </p>
           </div>
         ))}
       </section>
 
-      <div className="grid grid-cols-1 gap-4 xl:grid-cols-[1fr_340px] min-[2240px]:grid-cols-[1fr_420px]">
-        {/* Observations */}
-        <section className="atmos-card overflow-hidden">
-          <header className="border-b border-white/70 px-5 py-3.5">
-            <h2 className="atmos-label">Observations — newest first</h2>
-          </header>
+      <div className="grid grid-cols-1 gap-2 xl:grid-cols-[1fr_340px] min-[2240px]:grid-cols-[1fr_420px]">
+        {/* Telemetry */}
+        <section className="aexis-shell">
+          <div className="aexis-card overflow-hidden">
+            <header className="border-b border-[color:var(--ax-line)] px-3 py-3">
+              <h2 className="aexis-label">Telemetry — newest first</h2>
+            </header>
 
-          <table className="hidden w-full text-left sm:table">
-            <thead>
-              <tr className="border-b border-white/70">
-                {["Time", "Station", "PM2.5", "CO₂", "Temp", "RH", "Flag"].map(
-                  (h) => (
-                    <th key={h} className="atmos-label px-5 py-2.5 font-medium">
-                      {h}
-                    </th>
-                  )
-                )}
-              </tr>
-            </thead>
-            <tbody>
-              {READINGS.map((r, i) => (
-                <tr key={i} className="border-b border-white/40 last:border-0">
-                  <td className="px-5 py-2.5 text-[11.5px] tabular-nums text-[color:var(--atmos-neutral)]">{r.time}</td>
-                  <td className="px-5 py-2.5 text-[11.5px] font-medium">{r.station}</td>
-                  <td className="px-5 py-2.5 text-[11.5px] tabular-nums">{r.pm25.toFixed(1)}</td>
-                  <td className="px-5 py-2.5 text-[11.5px] tabular-nums">{r.co2}</td>
-                  <td className="px-5 py-2.5 text-[11.5px] tabular-nums">{r.tempC.toFixed(1)}°C</td>
-                  <td className="px-5 py-2.5 text-[11.5px] tabular-nums">{r.rh}%</td>
-                  <td className="px-5 py-2.5">
-                    {r.flagged && <FlagChip />}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-
-          <ul className="divide-y divide-white/50 sm:hidden">
-            {READINGS.map((r, i) => (
-              <li key={i} className="space-y-1 px-5 py-3">
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-[11.5px] font-medium">{r.station}</span>
-                  {r.flagged ? (
-                    <FlagChip />
-                  ) : (
-                    <span className="atmos-label">{r.time}</span>
+            <table className="hidden w-full text-left sm:table">
+              <thead>
+                <tr className="border-b border-[color:var(--ax-line)]">
+                  {["Time", "Node", "Density", "Temp", "Field", "Conf.", "Flag"].map(
+                    (h) => (
+                      <th key={h} className="aexis-label px-3 py-2.5 font-normal">
+                        {h}
+                      </th>
+                    )
                   )}
-                </div>
-                <p className="text-[11px] tabular-nums text-[color:var(--atmos-neutral)]">
-                  PM2.5 {r.pm25.toFixed(1)} · CO₂ {r.co2} · {r.tempC.toFixed(1)}°C · {r.rh}%
-                </p>
-              </li>
-            ))}
-          </ul>
+                </tr>
+              </thead>
+              <tbody>
+                {READINGS.map((r, i) => (
+                  <tr
+                    key={i}
+                    className="border-b border-[color:var(--ax-line)] last:border-0"
+                  >
+                    <td className="px-3 py-2.5 tabular-nums text-[color:var(--ax-text-dim)]">{r.time}</td>
+                    <td className="px-3 py-2.5 text-[color:var(--ax-text)]">{r.node}</td>
+                    <td className="px-3 py-2.5 tabular-nums">{r.density.toFixed(2)}</td>
+                    <td className="px-3 py-2.5 tabular-nums">{r.tempKeV.toFixed(1)} keV</td>
+                    <td className="px-3 py-2.5 tabular-nums">{r.fieldT.toFixed(1)} T</td>
+                    <td className="px-3 py-2.5 tabular-nums">{r.confMs} ms</td>
+                    <td className="px-3 py-2.5">{r.flagged && <FlagChip />}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            <ul className="divide-y divide-[color:var(--ax-line)] sm:hidden">
+              {READINGS.map((r, i) => (
+                <li key={i} className="space-y-1 px-3 py-3">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-[color:var(--ax-text)]">{r.node}</span>
+                    {r.flagged ? (
+                      <FlagChip />
+                    ) : (
+                      <span className="aexis-label">{r.time}</span>
+                    )}
+                  </div>
+                  <p className="tabular-nums text-[color:var(--ax-text-dim)]">
+                    n {r.density.toFixed(2)} · {r.tempKeV.toFixed(1)} keV ·{" "}
+                    {r.fieldT.toFixed(1)} T · {r.confMs} ms
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </div>
         </section>
 
         {/* Event log */}
-        <section className="atmos-card h-fit overflow-hidden">
-          <header className="border-b border-white/70 px-5 py-3.5">
-            <h2 className="atmos-label">Event log</h2>
-          </header>
-          <ul className="divide-y divide-white/50">
-            {EVENTS.map((e, i) => (
-              <li key={i} className="flex gap-3 px-5 py-3">
-                <span
-                  aria-hidden="true"
-                  className={[
-                    "mt-[5px] h-1.5 w-1.5 shrink-0 rounded-full",
-                    e.kind === "alert"
-                      ? "bg-[color:var(--atmos-accent)]"
-                      : "bg-[color:var(--atmos-neutral)]",
-                  ].join(" ")}
-                />
-                <div>
-                  <p className="text-[11.5px] leading-snug">{e.what}</p>
-                  <p className="atmos-label mt-0.5">
-                    {e.when}
-                    {e.kind === "alert" && " · alert"}
-                  </p>
-                </div>
-              </li>
-            ))}
-          </ul>
+        <section className="aexis-shell h-fit">
+          <div className="aexis-card overflow-hidden">
+            <header className="border-b border-[color:var(--ax-line)] px-3 py-3">
+              <h2 className="aexis-label">Event log</h2>
+            </header>
+            <ul className="divide-y divide-[color:var(--ax-line)]">
+              {EVENTS.map((e, i) => (
+                <li key={i} className="flex gap-3 px-3 py-3">
+                  <span
+                    aria-hidden="true"
+                    className={[
+                      "mt-[5px] h-1.5 w-1.5 shrink-0 rounded-full",
+                      e.kind === "alert"
+                        ? "bg-[color:var(--ax-primary)]"
+                        : "bg-[color:var(--ax-text-dim)]",
+                    ].join(" ")}
+                  />
+                  <div>
+                    <p className="leading-snug text-[color:var(--ax-text)]">
+                      {e.what}
+                    </p>
+                    <p className="aexis-label mt-0.5">
+                      {e.when}
+                      {e.kind === "alert" && " · alert"}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
         </section>
       </div>
     </div>
@@ -158,8 +175,11 @@ export default function DemoConsole() {
 
 function FlagChip() {
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-full border border-[color:var(--atmos-accent)]/50 px-2 py-0.5 text-[10px] font-medium uppercase tracking-[0.1em] text-[color:var(--atmos-accent)]">
-      <span aria-hidden="true" className="h-1 w-1 rounded-full bg-[color:var(--atmos-accent)]" />
+    <span className="inline-flex items-center gap-1.5 rounded-full border border-[color:var(--ax-primary)]/50 px-2 py-0.5 text-[10px] uppercase tracking-[0.1em] text-[color:var(--ax-primary)]">
+      <span
+        aria-hidden="true"
+        className="h-1 w-1 rounded-full bg-[color:var(--ax-primary)]"
+      />
       Watch
     </span>
   );

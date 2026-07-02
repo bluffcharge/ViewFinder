@@ -3,10 +3,11 @@
 import { useEffect, useRef } from "react";
 
 /**
- * The kit's "wide canvas band": a WebGL noise-haze field — electric-blue
- * phosphor on near-black — breathing on a slow pulse, drifting subtly toward the
- * pointer. Falls back to a static gradient when WebGL is unavailable,
- * and renders a single still frame under prefers-reduced-motion.
+ * The kit's ambient WebGL surface: a fluid wave field — amber plasma on
+ * near-black, sparse lime motes — breathing on a slow pulse, drifting
+ * subtly toward the pointer. Falls back to a static gradient when WebGL
+ * is unavailable, and renders a single still frame under
+ * prefers-reduced-motion.
  */
 export function NoiseBand({ className }: { className?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -69,11 +70,12 @@ export function NoiseBand({ className }: { className?: string }) {
         float n = fbm(q + vec2(u_t * 0.025, -u_t * 0.018) + drift);
         n = fbm(q * 0.9 + n * 1.6 + drift);
         float glow = smoothstep(0.26, 0.78, n) * breath;
-        // Sparse bright motes riding the haze.
+        // Sparse bright motes riding the field — the tertiary lime accent.
         float motes = smoothstep(0.94, 1.0, noise(q * 7.0 + u_t * 0.05)) * breath;
-        vec3 base = vec3(0.035, 0.048, 0.075);
-        vec3 phosphor = vec3(0.34, 0.72, 1.0);
-        vec3 col = base + glow * phosphor * 0.72 + motes * phosphor * 0.9;
+        vec3 base = vec3(0.022, 0.014, 0.008);
+        vec3 plasma = vec3(0.96, 0.62, 0.04);
+        vec3 mote = vec3(0.68, 0.99, 0.05);
+        vec3 col = base + glow * plasma * 0.65 + motes * mote * 0.85;
         // CRT scanline whisper + edge vignette.
         col *= 0.94 + 0.06 * sin(gl_FragCoord.y * 1.6);
         float vig = 1.0 - 0.55 * pow(distance(uv, vec2(0.5)), 1.8);
@@ -163,7 +165,7 @@ export function NoiseBand({ className }: { className?: string }) {
         className="absolute inset-0 opacity-0"
         style={{
           background:
-            "radial-gradient(120% 90% at 30% 40%, rgba(87,183,255,0.22) 0%, transparent 55%), radial-gradient(90% 80% at 75% 70%, rgba(87,183,255,0.12) 0%, transparent 60%), #080C14",
+            "radial-gradient(120% 90% at 30% 40%, rgba(245,158,11,0.22) 0%, transparent 55%), radial-gradient(90% 80% at 75% 70%, rgba(251,191,36,0.10) 0%, transparent 60%), #030303",
         }}
       />
     </div>

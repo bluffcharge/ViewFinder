@@ -2,32 +2,19 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Inter, JetBrains_Mono } from "next/font/google";
-import "./atmos.css";
-
-const display = Inter({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  variable: "--atmos-font-display",
-});
-const mono = JetBrains_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--atmos-font-mono",
-});
+import "./aexis.css";
 
 /**
- * Chrome for the built-in demo screens — a fictional atmospheric data
- * console. These pages exist so the canvas has something to frame
- * before you point it at your own prototype. The .atmos theme is scoped
- * here and never touches the ViewFinder chrome.
+ * Chrome for the built-in demo screens — a fictional plasma-core control
+ * interface (AEXIS). These pages exist so the canvas has something to
+ * frame before you point it at your own prototype. The .aexis theme is
+ * scoped here and never touches the ViewFinder chrome.
  *
- * Width: full-bleed-ish per the kit. The container opens up with the
- * viewport so the desktop (1920) and wide (2560) canvas breakpoints
- * actually use the horizontal real estate instead of a fixed column.
+ * Width: full bleed per the kit — the container is a padded full-width
+ * flex column at every breakpoint, so the desktop (1920) and wide (2560)
+ * canvas viewports use the horizontal real estate.
  */
-const CONTAINER =
-  "mx-auto w-full px-5 sm:px-6 max-w-[1200px] 2xl:max-w-[82%] min-[2240px]:max-w-[90%]";
+const CONTAINER = "w-full px-5 sm:px-8 min-[1920px]:px-12";
 
 export default function DemoLayout({
   children,
@@ -36,23 +23,21 @@ export default function DemoLayout({
 }) {
   const pathname = usePathname();
   const links = [
-    { href: "/demo/console", label: "Console" },
-    { href: "/demo/stations", label: "Stations" },
-    { href: "/demo/settings", label: "Settings" },
+    { href: "/demo/console", label: "Core" },
+    { href: "/demo/stations", label: "Nodes" },
+    { href: "/demo/settings", label: "Config" },
   ];
   return (
-    <div
-      className={`atmos ${display.variable} ${mono.variable} min-h-[100dvh] text-[12px] leading-relaxed`}
-    >
-      <nav className="sticky top-0 z-10 border-b border-white/60 bg-[color:var(--atmos-bg)]/90 backdrop-blur-[8px]">
-        <div className={`${CONTAINER} flex h-14 items-center gap-6`}>
+    <div className="aexis min-h-[100dvh] text-[10.4px] leading-[15.6px] tracking-[0.1em]">
+      <nav className="sticky top-0 z-10 border-b border-[color:var(--ax-line)] bg-[#030303]/85 backdrop-blur-[12px]">
+        <div className={`${CONTAINER} flex h-12 items-center gap-6`}>
           <span className="flex items-baseline gap-2">
-            <span className="atmos-display text-[17px] font-normal tracking-tight">
-              ATMOS
+            <span className="aexis-display text-[15px] tracking-[-0.025em]">
+              AEXIS
             </span>
-            <span className="atmos-label hidden sm:inline">Data console</span>
+            <span className="aexis-label hidden sm:inline">Plasma core</span>
           </span>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
             {links.map((l) => {
               const active = pathname === l.href;
               return (
@@ -60,10 +45,10 @@ export default function DemoLayout({
                   key={l.href}
                   href={l.href}
                   className={[
-                    "rounded-[10px] px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.1em] transition-colors duration-150",
+                    "aexis-label rounded-[1px] px-3 py-1.5 transition-colors duration-150",
                     active
-                      ? "atmos-well text-[color:var(--atmos-accent)]"
-                      : "text-[color:var(--atmos-neutral)] hover:text-[color:var(--atmos-ink)]",
+                      ? "aexis-well text-[color:var(--ax-primary)]"
+                      : "hover:text-[color:var(--ax-text)]",
                   ].join(" ")}
                 >
                   {l.label}
@@ -71,12 +56,12 @@ export default function DemoLayout({
               );
             })}
           </div>
-          <span className="atmos-label ml-auto hidden lg:inline">
+          <span className="aexis-label ml-auto hidden lg:inline">
             Demo screens — replace with your own prototype
           </span>
         </div>
       </nav>
-      <div className={`${CONTAINER} py-6`}>{children}</div>
+      <div className={`${CONTAINER} py-8`}>{children}</div>
     </div>
   );
 }
