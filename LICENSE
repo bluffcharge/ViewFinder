@@ -1,21 +1,43 @@
-MIT License
+ViewFinder Honor License v1.0
 
 Copyright (c) 2026 Rob Simon
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+ViewFinder is source-available and free to read, run, fork, and modify.
+It is not quite open source — commercial use carries a royalty, on the
+honor system. Here is the whole deal in plain language:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+1. FREE USES
+   You can use ViewFinder at no cost for:
+   - evaluating it,
+   - personal and hobby projects,
+   - education, teaching, and research,
+   - contributing improvements back to this repository.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+2. COMMERCIAL USE
+   If ViewFinder becomes part of how you or your team deliver paid work
+   (client reviews, design handoff, agency or in-house product process),
+   you owe a royalty. Suggested: USD $49 per team, per year. If that
+   number is wrong for your situation, pay what is fair — the point is
+   the gesture, not the invoice.
+
+3. THE HONOR SYSTEM
+   There is no license key, telemetry, or enforcement. Nobody is
+   checking. To pay the royalty, contact the author (GitHub: @bluffcharge
+   or LinkedIn: Rob Simon) and say hello — that is also how you find out
+   where to send it. A note about what you are using it for is worth as
+   much as the money.
+
+4. REDISTRIBUTION
+   Forks and copies must keep this license and the copyright notice.
+   You may not resell ViewFinder itself, or a lightly modified version
+   of it, as a product.
+
+5. NO WARRANTY
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+   EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+   NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+   BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+   ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+   SOFTWARE.
