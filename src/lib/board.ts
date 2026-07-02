@@ -191,6 +191,56 @@ The maintenance view — every containment node by status.
 - Offline nodes read dimmed **and** say "No signal" in text — never color alone.
 - Columns stack vertically on phones — horizontal scrolling is not acceptable on touch.
 
+## Specimen
+
+The showcase view — the plasma mass alone inside its orbital ring.
+
+### Key requirements
+
+- The specimen chamber fills the viewport height; the blob renders over the dotted orbital ring and its six station labels.
+- The satellite droplet condenses from nothing on cursor approach and swirls into the core in a complementary color — oil and water, never blending.
+- Resonance / viscosity / tension / core temp read out beneath the chamber.
+
+## Telemetry
+
+The archive view — four sweep windows of readings with filters.
+
+### Key requirements
+
+- Node filter is a segmented pill rail; **Watch only** is a separate toggle; both compose.
+- Filters update the count in the header ("N of M readings") and show an empty state when nothing matches.
+- The table collapses to stacked cards on phones, same as the Core screen.
+
+## Alerts
+
+The operations queue — acknowledge from the row.
+
+### Key requirements
+
+- Severity chips: alarm (amber), watch (gold), info (quiet) — text labels, never color alone.
+- **Acknowledge** writes immediately, fades the row, and flips to **Reopen**; the open count in the header tracks it.
+- Alarm severities page the on-shift operator; watch items roll into the 08:00 digest.
+
+## Grid
+
+Demand vs core output across 24 hours.
+
+### Key requirements
+
+- Amber demand bars with a lime output tick per hour; hover brightens the bar and a title carries the exact numbers.
+- The header states the peak hour and the minimum headroom — the chart is evidence, the words are the finding.
+- Four wells below: delivered GWh, capacitor charge, exporting nodes, curtailment events.
+
+## Access
+
+The crew roster — who can touch the lattice.
+
+### Key requirements
+
+- Role chips use the palette roles (Director amber, Operator gold, Maintenance lime, Observer quiet).
+- Active badges pulse; suspended badges are dim **and** labeled "Suspended".
+- Clearance changes require Director sign-off, stated in the footnote.
+
 ## Config
 
 Per-node configuration; intentionally calm.
@@ -215,11 +265,46 @@ export const DEMO_BOARD: Board = {
       group: "Monitor",
     },
     {
+      id: "demo-specimen",
+      path: "/demo/specimen",
+      title: "Specimen",
+      subtitle: "IG-77 · orbital ring · live render",
+      group: "Monitor",
+    },
+    {
       id: "demo-stations",
       path: "/demo/stations",
       title: "Nodes",
       subtitle: "Stable · tuning · offline",
       group: "Lattice",
+    },
+    {
+      id: "demo-telemetry",
+      path: "/demo/telemetry",
+      title: "Telemetry",
+      subtitle: "Archive · node filter · watch only",
+      group: "Lattice",
+    },
+    {
+      id: "demo-alerts",
+      path: "/demo/alerts",
+      title: "Alerts",
+      subtitle: "Queue · acknowledge · severities",
+      group: "Ops",
+    },
+    {
+      id: "demo-grid",
+      path: "/demo/grid",
+      title: "Grid",
+      subtitle: "Demand vs output · 24 h",
+      group: "Ops",
+    },
+    {
+      id: "demo-access",
+      path: "/demo/access",
+      title: "Access",
+      subtitle: "Crew roster · clearances",
+      group: "Admin",
     },
     {
       id: "demo-settings",
