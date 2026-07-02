@@ -156,74 +156,75 @@ export function groupPipClass(board: Board, group: string | undefined): string {
 }
 
 /* ------------------------------------------------------------------ */
-/* Demo board — frames the three Orbit demo screens that ship with the */
+/* Demo board — frames the three AEXIS demo screens that ship with the */
 /* app, so the canvas works before you've wired up your own prototype. */
 /* ------------------------------------------------------------------ */
 
-export const DEMO_SPEC = `# Atmos — review notes
+export const DEMO_SPEC = `# AEXIS — review notes
 
-Demo spec for the Atmos screens. Sections below map to screens by their
-\`## heading\` — use the screen's title or its path. Everything here came
-from a plain markdown file; export from Notion (\`⋯ → Export → Markdown\`)
-or paste your own.
+Demo spec for the AEXIS Plasma Core screens. Sections below map to screens
+by their \`## heading\` — use the screen's title or its path. Everything
+here came from a plain markdown file; export from Notion
+(\`⋯ → Export → Markdown\`) or paste your own.
 
-## Console
+## Core
 
-The wall-screen view — array health and live air readings at a glance.
+The wall-screen view — lattice health and live plasma telemetry at a glance.
 
 ### Key requirements
 
-- Arched AQI gauge is the hero: index value, banded status (Good / Watch / Alarm), and the dominant pollutant.
-- The signal band renders the array feed as a WebGL noise field — breathing pulse, pointer drift, static fallback when WebGL is unavailable.
-- Six readout wells: PM2.5, CO₂, NO₂, O₃, humidity, pressure — values in display type, units in mono labels.
-- Observations stream newest-first; threshold rows carry a **Watch** chip, never color alone.
+- The output gauge is the hero: net megawatts, a glowing **Nominal** status pill, and the sustained Q factor.
+- The field panel renders specimen IG-77 as a raymarched SDF blob — viscous bronze mass, white specular bloom, blue-violet iridescent rim. Dragging the cursor raises a lobe that relaxes back over ~1.5s; slow breathing pulse and tumble underneath. Static fallback when WebGL is unavailable.
+- Six readout wells: density, ion temp, field, confinement, net output, Q factor — values in display type, units in mono labels.
+- Telemetry streams newest-first; threshold rows carry a **Watch** chip, never color alone.
+- Glass surfaces sit inside 1px gradient border shells; radii stay in the 1px / 4px / pill family.
 - Content widens with the viewport — desktop and wide use the horizontal real estate instead of a fixed column.
 
-## Stations
+## Nodes
 
-The maintenance view — every deployed station by status.
+The maintenance view — every containment node by status.
 
 ### Key requirements
 
-- Three columns by status: Online, Calibrating, Offline — counts in the column headers.
-- Cards carry name, ID, region, AQI, last sync, and an uptime track.
-- Offline stations read in the alarm color **and** say "No signal" in text.
+- Three columns by status: Stable, Tuning, Offline — counts in the column headers.
+- Cards carry name, ID, ring position, flux, last sync, and an uptime track (lime for stable, amber for tuning).
+- Offline nodes read dimmed **and** say "No signal" in text — never color alone.
 - Columns stack vertically on phones — horizontal scrolling is not acceptable on touch.
 
-## Settings
+## Config
 
-Per-station configuration; intentionally calm.
+Per-node configuration; intentionally calm.
 
 ### Key requirements
 
 - Name and ID are editable; the ID is uppercased on blur.
-- Sampling cadence is a segmented control — the active segment reads as carved-in.
+- Sampling cadence is a segmented control — the active segment fills amber and glows.
 - Alert toggles write immediately — no save button for toggles.
-- The danger zone names the station being decommissioned; readings are kept.
+- The danger zone names the node being decommissioned; telemetry is kept.
 `;
 
 export const DEMO_BOARD: Board = {
-  name: "Atmos — demo board",
+  name: "AEXIS — demo board",
   baseUrl: "",
   screens: [
     {
       id: "demo-console",
       path: "/demo/console",
-      title: "Console",
-      subtitle: "AQI gauge · live signal · observations",
+      title: "Core",
+      subtitle: "Output gauge · plasma field · telemetry",
       group: "Monitor",
     },
     {
       id: "demo-stations",
       path: "/demo/stations",
-      title: "Stations",
-      subtitle: "Online · calibrating · offline",
-      group: "Network",
+      title: "Nodes",
+      subtitle: "Stable · tuning · offline",
+      group: "Lattice",
     },
     {
       id: "demo-settings",
       path: "/demo/settings",
-      title: "Settings",
+      title: "Config",
       subtitle: "Identity · cadence · alerts",
       group: "Admin",
     },

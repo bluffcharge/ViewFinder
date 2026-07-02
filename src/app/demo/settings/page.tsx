@@ -4,126 +4,136 @@ import { useState } from "react";
 
 const INTERVALS = ["30 s", "2 min", "10 min"];
 
-export default function DemoSettings() {
-  const [name, setName] = useState("Delta Pier");
-  const [stationId, setStationId] = useState("ATM-04");
+export default function DemoConfig() {
+  const [name, setName] = useState("Torus Gamma");
+  const [nodeId, setNodeId] = useState("AX-04");
   const [interval, setInterval_] = useState("30 s");
   const [alerts, setAlerts] = useState({
-    pm25: true,
+    density: true,
     offline: true,
     digest: false,
   });
 
   return (
-    <div className="max-w-[620px] space-y-5">
+    <div className="max-w-[620px] space-y-3">
       <header>
-        <p className="atmos-label">Station configuration</p>
-        <h1 className="atmos-display mt-1 text-[26px] leading-none">
-          Settings
-        </h1>
+        <p className="aexis-label">Node configuration</p>
+        <h1 className="aexis-display text-[30px] leading-[36px]">Config</h1>
       </header>
 
-      <section className="atmos-card p-5">
-        <h2 className="atmos-label mb-3.5">Identity</h2>
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-[1fr_150px]">
-          <label className="block">
-            <span className="atmos-label">Station name</span>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="atmos-well-soft mt-1.5 h-9 w-full border-0 bg-transparent px-3 text-[12px]"
-            />
-          </label>
-          <label className="block">
-            <span className="atmos-label">ID</span>
-            <input
-              type="text"
-              value={stationId}
-              onChange={(e) => setStationId(e.target.value)}
-              onBlur={() => setStationId((v) => v.toUpperCase())}
-              className="atmos-well-soft mt-1.5 h-9 w-full border-0 bg-transparent px-3 text-[12px] uppercase tabular-nums"
-            />
-          </label>
+      <section className="aexis-shell">
+        <div className="aexis-card p-3">
+          <h2 className="aexis-label mb-3">Identity</h2>
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-[1fr_150px]">
+            <label className="block">
+              <span className="aexis-label">Node name</span>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="aexis-well mt-1.5 h-9 w-full bg-transparent px-3 text-[10.4px] uppercase tracking-[0.1em]"
+              />
+            </label>
+            <label className="block">
+              <span className="aexis-label">ID</span>
+              <input
+                type="text"
+                value={nodeId}
+                onChange={(e) => setNodeId(e.target.value)}
+                onBlur={() => setNodeId((v) => v.toUpperCase())}
+                className="aexis-well mt-1.5 h-9 w-full bg-transparent px-3 text-[10.4px] uppercase tracking-[0.1em] tabular-nums"
+              />
+            </label>
+          </div>
         </div>
       </section>
 
-      <section className="atmos-card p-5">
-        <h2 className="atmos-label mb-1.5">Sampling cadence</h2>
-        <p className="text-[11.5px] text-[color:var(--atmos-neutral)]">
-          How often the station reports. Shorter intervals drain the backup
-          cell faster during grid outages.
-        </p>
-        <div
-          role="radiogroup"
-          aria-label="Sampling cadence"
-          className="atmos-well-soft mt-3 inline-flex gap-1 rounded-full p-1"
-        >
-          {INTERVALS.map((v) => {
-            const active = v === interval;
-            return (
-              <button
-                key={v}
-                type="button"
-                role="radio"
-                aria-checked={active}
-                onClick={() => setInterval_(v)}
-                className={[
-                  "rounded-full px-3.5 py-1.5 text-[11px] font-medium uppercase tracking-[0.08em] transition-colors duration-150",
-                  active
-                    ? "bg-[#2A2A2A] text-[color:var(--atmos-signal)]"
-                    : "text-[color:var(--atmos-neutral)] hover:text-[color:var(--atmos-ink)]",
-                ].join(" ")}
-              >
-                {v}
-              </button>
-            );
-          })}
-        </div>
-      </section>
-
-      <section className="atmos-card p-5">
-        <h2 className="atmos-label mb-1.5">Alerts — write immediately</h2>
-        <ul className="divide-y divide-white/50">
-          <Toggle
-            label="PM2.5 watch threshold"
-            hint="Fires when any station holds above 20 µg/m³ for 10 minutes."
-            checked={alerts.pm25}
-            onChange={(v) => setAlerts((a) => ({ ...a, pm25: v }))}
-          />
-          <Toggle
-            label="Offline stations"
-            hint="Fires after three missed sync windows."
-            checked={alerts.offline}
-            onChange={(v) => setAlerts((a) => ({ ...a, offline: v }))}
-          />
-          <Toggle
-            label="Daily digest"
-            hint="One summary at 08:00 — array health and overnight peaks."
-            checked={alerts.digest}
-            onChange={(v) => setAlerts((a) => ({ ...a, digest: v }))}
-          />
-        </ul>
-      </section>
-
-      <section className="atmos-card border-[color:var(--atmos-accent)]/40 p-5">
-        <h2 className="atmos-label mb-1.5 text-[color:var(--atmos-accent)]">
-          Danger zone
-        </h2>
-        <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
-          <p className="text-[11.5px] leading-relaxed text-[color:var(--atmos-neutral)]">
-            Decommissioning retires{" "}
-            <span className="font-medium text-[color:var(--atmos-ink)]">
-              {name || "this station"}
-            </span>{" "}
-            from the array. Historical readings are kept.
+      <section className="aexis-shell">
+        <div className="aexis-card p-3">
+          <h2 className="aexis-label mb-1.5 text-[color:var(--ax-text)]">
+            Sampling cadence
+          </h2>
+          <p className="aexis-label">
+            How often the node reports. Shorter intervals draw harder on the
+            capacitor bank during grid peaks.
           </p>
-          <button
-            type="button"
-            className="atmos-well-soft shrink-0 rounded-[12px] px-3.5 py-2 text-[11px] font-medium uppercase tracking-[0.1em] text-[color:var(--atmos-accent)] hover:text-[color:var(--atmos-alarm)]"
+          <div
+            role="radiogroup"
+            aria-label="Sampling cadence"
+            className="aexis-well mt-3 inline-flex gap-1 rounded-full p-1"
           >
-            Decommission {stationId || "station"}
-          </button>
+            {INTERVALS.map((v) => {
+              const active = v === interval;
+              return (
+                <button
+                  key={v}
+                  type="button"
+                  role="radio"
+                  aria-checked={active}
+                  onClick={() => setInterval_(v)}
+                  className={[
+                    "rounded-full px-3.5 py-1.5 text-[10.4px] uppercase tracking-[0.1em] transition-colors duration-150",
+                    active
+                      ? "aexis-glow bg-[color:var(--ax-primary)] text-[#030303]"
+                      : "text-[color:var(--ax-text-dim)] hover:text-[color:var(--ax-text)]",
+                  ].join(" ")}
+                >
+                  {v}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="aexis-shell">
+        <div className="aexis-card p-3">
+          <h2 className="aexis-label mb-1.5 text-[color:var(--ax-text)]">
+            Alerts — write immediately
+          </h2>
+          <ul className="divide-y divide-[color:var(--ax-line)]">
+            <Toggle
+              label="Density watch threshold"
+              hint="Fires when any node holds above 2.0 ×10²⁰ m⁻³ for 10 minutes."
+              checked={alerts.density}
+              onChange={(v) => setAlerts((a) => ({ ...a, density: v }))}
+            />
+            <Toggle
+              label="Offline nodes"
+              hint="Fires after three missed sync windows."
+              checked={alerts.offline}
+              onChange={(v) => setAlerts((a) => ({ ...a, offline: v }))}
+            />
+            <Toggle
+              label="Daily digest"
+              hint="One summary at 08:00 — lattice health and overnight peaks."
+              checked={alerts.digest}
+              onChange={(v) => setAlerts((a) => ({ ...a, digest: v }))}
+            />
+          </ul>
+        </div>
+      </section>
+
+      <section className="aexis-shell">
+        <div className="aexis-card border border-[color:var(--ax-primary)]/30 p-3">
+          <h2 className="aexis-label mb-1.5 text-[color:var(--ax-primary)]">
+            Danger zone
+          </h2>
+          <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
+            <p className="aexis-label leading-relaxed">
+              Decommissioning retires{" "}
+              <span className="text-[color:var(--ax-text)]">
+                {name || "this node"}
+              </span>{" "}
+              from the lattice. Historical telemetry is kept.
+            </p>
+            <button
+              type="button"
+              className="aexis-well shrink-0 px-3.5 py-2 text-[10.4px] uppercase tracking-[0.1em] text-[color:var(--ax-primary)] transition-shadow duration-150 hover:shadow-[0_0_8px_rgba(245,158,11,0.6)] hover:text-[color:var(--ax-secondary)]"
+            >
+              Decommission {nodeId || "node"}
+            </button>
+          </div>
         </div>
       </section>
     </div>
@@ -142,12 +152,10 @@ function Toggle({
   onChange: (v: boolean) => void;
 }) {
   return (
-    <li className="flex items-center justify-between gap-4 py-3.5">
+    <li className="flex items-center justify-between gap-4 py-3">
       <div>
-        <p className="text-[12px] font-medium">{label}</p>
-        <p className="mt-0.5 text-[11px] text-[color:var(--atmos-neutral)]">
-          {hint}
-        </p>
+        <p className="uppercase text-[color:var(--ax-text)]">{label}</p>
+        <p className="aexis-label mt-0.5">{hint}</p>
       </div>
       <button
         type="button"
@@ -155,14 +163,14 @@ function Toggle({
         aria-checked={checked}
         aria-label={label}
         onClick={() => onChange(!checked)}
-        className="atmos-well-soft relative h-6 w-11 shrink-0 rounded-full"
+        className="aexis-well relative h-6 w-11 shrink-0 rounded-full"
       >
         <span
           className={[
-            "absolute top-0.5 h-5 w-5 rounded-full shadow-[2px_2px_4px_rgba(160,155,140,0.6),-2px_-2px_4px_rgba(255,255,255,0.25)] transition-[left,background-color] duration-150",
+            "absolute top-[3px] h-4 w-4 rounded-full transition-[left,background-color,box-shadow] duration-150",
             checked
-              ? "left-[22px] bg-[color:var(--atmos-accent)]"
-              : "left-0.5 bg-[color:var(--atmos-surface)]",
+              ? "aexis-glow left-[24px] bg-[color:var(--ax-primary)]"
+              : "left-[3px] bg-white/30",
           ].join(" ")}
         />
       </button>
