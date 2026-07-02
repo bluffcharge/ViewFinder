@@ -5,12 +5,14 @@ import { useEffect, useRef } from "react";
 /**
  * The kit's hero surface: a raymarched SDF plasma blob — a viscous
  * bronze mass with a white specular bloom and a blue-violet iridescent
- * rim, breathing slowly and perturbed by cursor drag. Fast pointer
- * movement raises a lobe toward the cursor (up to a near-separating
- * droplet via smooth-min) that relaxes back over ~1.5s, viscous rather
- * than springy. Falls back to a static gradient when WebGL is
- * unavailable, and renders a single still frame under
- * prefers-reduced-motion.
+ * rim, breathing slowly. Moving the cursor toward it condenses a
+ * second, petrol-teal satellite out of nothing (radius scales with
+ * pointer proximity) that merges into the core via smooth-min; the two
+ * materials stay complementary and swirl at the seam like oil and
+ * water paint rather than blending. Pointer speed adds a surge that
+ * relaxes back over ~1.5s, viscous rather than springy. Falls back to
+ * a static gradient when WebGL is unavailable, and renders a single
+ * still frame under prefers-reduced-motion.
  */
 export function PlasmaBlob({ className }: { className?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -61,16 +63,19 @@ export function PlasmaBlob({ className }: { className?: string }) {
       }
 
       vec3 ptrPoint() {
-        // Pointer mapped onto the blob's front hemisphere.
-        vec2 m = (u_ptr - 0.5) * vec2(2.4, 1.8);
+        // Pointer in view space — the satellite rides the cursor.
+        vec2 m = (u_ptr - 0.5) * vec2(2.6, 2.0);
         return vec3(m, 0.9);
       }
 
-      float map(vec3 p) {
-        // Pointer lobe lives in view space so it tracks the cursor even
-        // as the body tumbles beneath it.
-        vec3 lp = ptrPoint();
-        float lobe = length(p - lp * (0.75 + 0.55 * u_amp)) - (0.18 + 0.42 * u_amp);
+      // Proximity of the cursor to the core: 0 at the panel edges, 1 at
+      // the mass. This is what births the satellite — it condenses from
+      // nothing as the pointer approaches.
+      float proximity() {
+        return smoothstep(1.55, 0.35, length(ptrPoint().xy));
+      }
+
+      float sdBody(vec3 p) {
         // Slow tumble so the highlight migrates around the volume.
         p.xz *= rot(u_t * 0.12);
         p.xy *= rot(sin(u_t * 0.07) * 0.3);
@@ -79,8 +84,32 @@ export function PlasmaBlob({ className }: { className?: string }) {
         vec3 e = vec3(1.30, 0.95, 1.05) * breath;
         vec3 q = p / e;
         float body = (length(q) - 1.0) * min(e.x, min(e.y, e.z));
-        body += wobble(q * 1.5, u_t) * 0.75;
-        return smin(body, lobe, 0.38);
+        return body + wobble(q * 1.5, u_t) * 0.75;
+      }
+
+      float sdLobe(vec3 p) {
+        // Satellite radius scales with proximity (born tiny at the edge,
+        // swelling as it nears the core); pointer energy adds a surge.
+        float prox = proximity();
+        float r = prox * (0.34 + 0.28 * u_amp);
+        if (r < 0.015) return 1e3;
+        return length(p - ptrPoint()) - r;
+      }
+
+      float map(vec3 p) {
+        return smin(sdBody(p), sdLobe(p), 0.38);
+      }
+
+      // Material weight at a surface point: 0 = core, 1 = satellite,
+      // with a marbled boundary so the two colors swirl like oil and
+      // water paint instead of blending.
+      float material(vec3 p) {
+        float db = sdBody(p);
+        float dl = sdLobe(p);
+        float w = clamp(0.5 + (db - dl) / 0.55, 0.0, 1.0);
+        float marble = sin(7.0 * p.x + 4.0 * sin(3.1 * p.y + u_t * 0.25))
+                     * sin(6.0 * p.y + 3.5 * sin(2.6 * p.z - u_t * 0.2));
+        return smoothstep(0.44, 0.56, w + 0.28 * marble);
       }
 
       vec3 normalAt(vec3 p) {
@@ -120,11 +149,17 @@ export function PlasmaBlob({ className }: { className?: string }) {
           float dif = clamp(dot(n, l), 0.0, 1.0);
           float spec = pow(clamp(dot(reflect(-l, n), -rd), 0.0, 1.0), 28.0);
           float fres = pow(1.0 - clamp(dot(n, -rd), 0.0, 1.0), 4.0);
-          // Bronze body, white bloom, blue-violet iridescent rim held to
-          // the silhouette.
-          vec3 body = vec3(0.40, 0.26, 0.13) * (0.16 + 1.1 * dif);
-          vec3 rim = mix(vec3(0.30, 0.34, 0.62), vec3(0.55, 0.42, 0.72),
-                         0.5 + 0.5 * sin(6.0 * n.y + u_t * 0.2));
+          // Bronze core vs petrol-teal satellite — complementary paints
+          // that swirl at the seam but never combine.
+          float m = material(p);
+          vec3 coreAlbedo = vec3(0.40, 0.26, 0.13);
+          vec3 lobeAlbedo = vec3(0.12, 0.34, 0.40);
+          vec3 body = mix(coreAlbedo, lobeAlbedo, m) * (0.16 + 1.1 * dif);
+          vec3 rim = mix(
+            mix(vec3(0.30, 0.34, 0.62), vec3(0.55, 0.42, 0.72),
+                0.5 + 0.5 * sin(6.0 * n.y + u_t * 0.2)),
+            vec3(0.25, 0.75, 0.80),
+            m);
           // Broad soft bloom under the tight highlight, like the reference.
           float bloom = pow(clamp(dot(reflect(-l, n), -rd), 0.0, 1.0), 6.0);
           col = body + spec * vec3(1.0, 0.97, 0.9) * 1.1
@@ -192,9 +227,13 @@ export function PlasmaBlob({ className }: { className?: string }) {
 
     let raf = 0;
     const start = performance.now();
+    let prev = start;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     function frame() {
+      const now = performance.now();
+      const dt = Math.min(0.25, (now - prev) / 1000);
+      prev = now;
       const w = canvas!.clientWidth;
       const h = canvas!.clientHeight;
       const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
@@ -203,10 +242,12 @@ export function PlasmaBlob({ className }: { className?: string }) {
         canvas!.height = h * dpr;
         gl!.viewport(0, 0, canvas!.width, canvas!.height);
       }
-      // Ease toward the pointer, never snap; let the lobe energy bleed off.
-      ptr.x += (ptr.tx - ptr.x) * 0.06;
-      ptr.y += (ptr.ty - ptr.y) * 0.06;
-      ptr.amp *= 0.975;
+      // Ease toward the pointer, never snap; let the lobe energy bleed
+      // off. Time-based so behavior is frame-rate independent.
+      const ease = 1 - Math.exp(-dt * 3.6);
+      ptr.x += (ptr.tx - ptr.x) * ease;
+      ptr.y += (ptr.ty - ptr.y) * ease;
+      ptr.amp *= Math.exp(-dt * 1.5);
       gl!.uniform1f(uT, (performance.now() - start) / 1000);
       gl!.uniform2f(uRes, canvas!.width, canvas!.height);
       gl!.uniform2f(uPtr, ptr.x, ptr.y);
