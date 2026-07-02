@@ -66,6 +66,15 @@ export default function Home() {
     }
     const stored = loadStoredBoard();
     if (stored) {
+      // Saved copies of the built-in demo board go stale when the app
+      // ships new demo screens — swap them for the current one. Boards
+      // the user authored are never touched.
+      const isDemoCopy = /— demo board$/.test(stored.name);
+      if (isDemoCopy && JSON.stringify(stored) !== JSON.stringify(DEMO_BOARD)) {
+        setBoard(DEMO_BOARD);
+        saveBoard(DEMO_BOARD);
+        return;
+      }
       setBoard(stored);
       return;
     }
