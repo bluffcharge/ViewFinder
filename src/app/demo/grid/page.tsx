@@ -12,10 +12,10 @@ export default function DemoGrid() {
     <div className="space-y-3">
       <header className="flex flex-wrap items-end justify-between gap-2">
         <div>
-          <p className="aexis-label">Demand vs core output — 24 h</p>
-          <h1 className="aexis-display text-[30px] leading-[36px]">Grid</h1>
+          <p className="fe-label">Demand vs core output — 24 h</p>
+          <h1 className="fe-display text-[30px] leading-[36px]">Grid</h1>
         </div>
-        <p className="aexis-label">
+        <p className="fe-label">
           Peak {peak.demand} MW at {peak.hour}:00 ·{" "}
           {headroom < 0
             ? `capacitors cover ${-headroom} MW at peak`
@@ -24,15 +24,15 @@ export default function DemoGrid() {
       </header>
 
       {/* Hour-by-hour chart: amber demand bars under a lime output trace. */}
-      <section className="aexis-shell">
-        <div className="aexis-card p-3">
+      <section className="fe-shell">
+        <div className="fe-card p-3">
           <div className="mb-3 flex items-center gap-5">
-            <span className="aexis-label flex items-center gap-2">
-              <span aria-hidden="true" className="h-1.5 w-3 bg-[color:var(--ax-primary)]" />
+            <span className="fe-label flex items-center gap-2">
+              <span aria-hidden="true" className="h-1.5 w-3 bg-[color:var(--fe-primary)]" />
               Demand
             </span>
-            <span className="aexis-label flex items-center gap-2">
-              <span aria-hidden="true" className="h-[2px] w-3 bg-[color:var(--ax-tertiary)]" />
+            <span className="fe-label flex items-center gap-2">
+              <span aria-hidden="true" className="h-[2px] w-3 bg-[color:var(--fe-tertiary)]" />
               Core output
             </span>
           </div>
@@ -47,11 +47,11 @@ export default function DemoGrid() {
                 {/* Output tick */}
                 <div
                   aria-hidden="true"
-                  className="absolute left-0 right-0 h-[2px] bg-[rgba(174,253,13,0.8)]"
+                  className="absolute left-0 right-0 h-[2px] bg-[#94A3B8]"
                   style={{ bottom: `${(g.output / MAX_MW) * 100}%` }}
                 />
                 <div
-                  className="rounded-t-[1px] bg-[rgba(245,158,11,0.7)] transition-colors duration-150 group-hover:bg-[#F59E0B]"
+                  className="rounded-t-[1px] bg-[rgba(15,23,42,0.7)] transition-colors duration-150 group-hover:bg-[#0F172A]"
                   style={{ height: `${(g.demand / MAX_MW) * 100}%` }}
                 />
               </div>
@@ -59,7 +59,7 @@ export default function DemoGrid() {
           </div>
           <div className="mt-2 flex justify-between">
             {["00", "06", "12", "18", "23"].map((h) => (
-              <span key={h} className="aexis-label tabular-nums">
+              <span key={h} className="fe-label tabular-nums">
                 {h}:00
               </span>
             ))}
@@ -74,13 +74,13 @@ export default function DemoGrid() {
           { label: "Nodes exporting", value: "6", unit: "of 8" },
           { label: "Curtailment", value: "0", unit: "events" },
         ].map((s) => (
-          <div key={s.label} className="aexis-well px-3 py-3">
-            <p className="aexis-label">{s.label}</p>
+          <div key={s.label} className="fe-well px-3 py-3">
+            <p className="fe-label">{s.label}</p>
             <p className="mt-1.5 flex items-baseline gap-1.5">
-              <span className="aexis-display text-[24px] leading-none">
+              <span className="fe-display text-[24px] leading-none">
                 {s.value}
               </span>
-              <span className="aexis-label">{s.unit}</span>
+              <span className="fe-label">{s.unit}</span>
             </p>
           </div>
         ))}

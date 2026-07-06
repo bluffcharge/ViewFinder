@@ -2,16 +2,16 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import "./aexis.css";
+import "./dither.css";
 
 /**
- * Chrome for the built-in demo screens — a fictional plasma-core control
- * interface (AEXIS). These pages exist so the canvas has something to
- * frame before you point it at your own prototype. The .aexis theme is
+ * Chrome for the built-in demo screens — a fictional form-engine console
+ * (Stochastic Dither). These pages exist so the canvas has something to
+ * frame before you point it at your own prototype. The .fe theme is
  * scoped here and never touches the ViewFinder chrome.
  *
  * Width: full bleed per the kit — the container is a padded full-width
- * flex column at every breakpoint, so the desktop (1920) and wide (2560)
+ * grid at every breakpoint, so the desktop (1920) and wide (2560)
  * canvas viewports use the horizontal real estate.
  */
 const CONTAINER = "w-full px-5 sm:px-8 min-[1920px]:px-12";
@@ -33,14 +33,14 @@ export default function DemoLayout({
     { href: "/demo/settings", label: "Config" },
   ];
   return (
-    <div className="aexis min-h-[100dvh] text-[10.4px] leading-[15.6px] tracking-[0.1em]">
-      <nav className="sticky top-0 z-10 border-b border-[color:var(--ax-line)] bg-[#030303]/85 backdrop-blur-[12px]">
+    <div className="fe min-h-[100dvh] text-[14px] leading-[22.75px] tracking-[-0.025em]">
+      <nav className="sticky top-0 z-10 border-b border-[color:var(--fe-line)] bg-[#EFEFF5]/85 backdrop-blur-[12px]">
         <div className={`${CONTAINER} flex h-12 items-center gap-6`}>
-          <span className="flex items-baseline gap-2">
-            <span className="aexis-display text-[15px] tracking-[-0.025em]">
-              AEXIS
+          <span className="flex shrink-0 items-baseline gap-2 whitespace-nowrap">
+            <span className="fe-display text-[15px] tracking-[-0.025em]">
+              Form Engine
             </span>
-            <span className="aexis-label hidden sm:inline">Plasma core</span>
+            <span className="fe-label hidden xl:inline">Stochastic dither</span>
           </span>
           <div className="flex items-center gap-1 overflow-x-auto">
             {links.map((l) => {
@@ -50,10 +50,10 @@ export default function DemoLayout({
                   key={l.href}
                   href={l.href}
                   className={[
-                    "aexis-label rounded-[1px] px-3 py-1.5 transition-colors duration-150",
+                    "fe-label rounded-[2px] px-3 py-1.5 transition-colors duration-150",
                     active
-                      ? "aexis-well text-[color:var(--ax-primary)]"
-                      : "hover:text-[color:var(--ax-text)]",
+                      ? "fe-well text-[color:var(--fe-primary)]"
+                      : "hover:text-[color:var(--fe-text)]",
                   ].join(" ")}
                 >
                   {l.label}
@@ -61,7 +61,7 @@ export default function DemoLayout({
               );
             })}
           </div>
-          <span className="aexis-label ml-auto hidden lg:inline">
+          <span className="fe-label ml-auto hidden shrink-0 whitespace-nowrap min-[1400px]:inline">
             Demo screens — replace with your own prototype
           </span>
         </div>

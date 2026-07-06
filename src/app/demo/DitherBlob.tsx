@@ -3,18 +3,19 @@
 import { useEffect, useRef } from "react";
 
 /**
- * The kit's hero surface: a raymarched SDF plasma blob — a viscous
- * bronze mass with a white specular bloom and a blue-violet iridescent
- * rim, breathing slowly. Moving the cursor toward it condenses a
- * second, petrol-teal satellite out of nothing (radius scales with
- * pointer proximity) that merges into the core via smooth-min; the two
- * materials stay complementary and swirl at the seam like oil and
- * water paint rather than blending. Pointer speed adds a surge that
- * relaxes back over ~1.5s, viscous rather than springy. Falls back to
- * a static gradient when WebGL is unavailable, and renders a single
- * still frame under prefers-reduced-motion.
+ * The kit's hero surface: a raymarched SDF form rendered as stochastic
+ * dither — a dot-matrix stipple of ink on paper, dense in shadow and
+ * sparse in light, with a scatter halo at the silhouette so the mass
+ * reads as a resolving particle cloud. Moving the cursor toward it
+ * condenses a satellite out of nothing (radius scales with pointer
+ * proximity) that merges into the core via smooth-min; the satellite
+ * dithers in slate against the core's ink and the two swirl at the
+ * seam like oil and water paint rather than blending. Pointer speed
+ * adds a surge that relaxes back over ~1.5s, viscous rather than
+ * springy. Falls back to a static gradient when WebGL is unavailable,
+ * and renders a single still frame under prefers-reduced-motion.
  */
-export function PlasmaBlob({ className }: { className?: string }) {
+export function DitherBlob({ className }: { className?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fallbackRef = useRef<HTMLDivElement>(null);
 
@@ -43,6 +44,12 @@ export function PlasmaBlob({ className }: { className?: string }) {
       uniform vec2 u_res;
       uniform vec2 u_ptr;   // pointer, 0..1, y up
       uniform float u_amp;  // perturbation energy, decays in JS
+      uniform float u_cell; // dither cell size in device pixels
+
+      // Per-cell stochastic threshold.
+      float hash(vec2 q) {
+        return fract(sin(dot(q, vec2(127.1, 311.7))) * 43758.5453123);
+      }
 
       // Cheap organic displacement — a few incommensurate sines.
       float wobble(vec3 q, float t) {
@@ -126,16 +133,14 @@ export function PlasmaBlob({ className }: { className?: string }) {
         vec3 ro = vec3(0.0, 0.0, 3.1);
         vec3 rd = normalize(vec3(uv, -1.55));
 
-        // Warm near-black field with a faint amber halo behind the mass.
-        float halo = exp(-2.6 * dot(uv, uv));
-        vec3 col = vec3(0.055, 0.032, 0.016) + halo * vec3(0.10, 0.055, 0.02);
-
         float t = 0.0;
         bool hit = false;
+        float dmin = 1e3; // nearest approach — drives the silhouette scatter
         vec3 p = ro;
         for (int i = 0; i < 56; i++) {
           p = ro + rd * t;
           float d = map(p);
+          dmin = min(dmin, d);
           if (d < 0.004) { hit = true; break; }
           // Conservative step — the wobble displacement breaks the strict
           // SDF bound, so marching at full distance leaves crease artifacts.
@@ -143,37 +148,42 @@ export function PlasmaBlob({ className }: { className?: string }) {
           if (t > 6.5) break;
         }
 
+        // Ink density: how likely this cell is to carry a dot.
+        float density = 0.0;
+        float m = 0.0;
         if (hit) {
           vec3 n = normalAt(p);
           vec3 l = normalize(vec3(-0.45, 0.75, 0.55));
           float dif = clamp(dot(n, l), 0.0, 1.0);
           float spec = pow(clamp(dot(reflect(-l, n), -rd), 0.0, 1.0), 28.0);
-          float fres = pow(1.0 - clamp(dot(n, -rd), 0.0, 1.0), 4.0);
-          // Bronze core vs petrol-teal satellite — complementary paints
-          // that swirl at the seam but never combine.
-          float m = material(p);
-          vec3 coreAlbedo = vec3(0.40, 0.26, 0.13);
-          vec3 lobeAlbedo = vec3(0.12, 0.34, 0.40);
-          vec3 body = mix(coreAlbedo, lobeAlbedo, m) * (0.16 + 1.1 * dif);
-          vec3 rim = mix(
-            mix(vec3(0.30, 0.34, 0.62), vec3(0.55, 0.42, 0.72),
-                0.5 + 0.5 * sin(6.0 * n.y + u_t * 0.2)),
-            vec3(0.25, 0.75, 0.80),
-            m);
-          // Broad soft bloom under the tight highlight, like the reference.
-          float bloom = pow(clamp(dot(reflect(-l, n), -rd), 0.0, 1.0), 6.0);
-          col = body + spec * vec3(1.0, 0.97, 0.9) * 1.1
-              + bloom * vec3(0.9, 0.75, 0.5) * 0.35
-              + fres * rim * 0.7;
-          // Amber under-glow rising from below, per the palette.
-          col += (1.0 - dif) * vec3(0.28, 0.16, 0.03) * clamp(-n.y, 0.0, 1.0);
+          float fres = pow(1.0 - clamp(dot(n, -rd), 0.0, 1.0), 3.0);
+          m = material(p);
+          // Stipple shading: dense in shadow, sparse in light, softened
+          // under the specular highlight, feathered at the rim so the
+          // edge dissolves into scatter instead of cutting a silhouette.
+          density = 0.62 - 0.34 * dif - 0.30 * spec - 0.22 * fres;
+          // The satellite dithers lighter than the core; the marbled
+          // material seam reads as swirls of differing grain.
+          density *= mix(1.0, 0.5, m);
+          density = clamp(density, 0.06, 0.85);
+        } else {
+          // Scatter halo: stray dots just outside the surface, plus the
+          // faintest atmospheric drift across otherwise clean paper.
+          density = 0.22 * exp(-dmin * 26.0)
+                  + 0.004 * (0.5 + 0.5 * sin(u_t * 0.3));
         }
 
-        // CRT scanline whisper + edge vignette, as elsewhere in the kit.
-        col *= 0.95 + 0.05 * sin(gl_FragCoord.y * 1.6);
-        vec2 suv = gl_FragCoord.xy / u_res;
-        float vig = 1.0 - 0.5 * pow(distance(suv, vec2(0.5)), 1.8);
-        gl_FragColor = vec4(col * vig, 1.0);
+        // Stochastic threshold per dither cell; the grain re-seeds a few
+        // times a second so the form reads as resolving, not frozen.
+        vec2 cell = floor(gl_FragCoord.xy / u_cell);
+        float seed = floor(u_t * 5.0);
+        float dot_ = step(hash(cell + seed * vec2(7.31, 3.17)), density);
+
+        vec3 paper = vec3(0.937, 0.937, 0.961); // #EFEFF5
+        vec3 ink = vec3(0.059, 0.090, 0.165);   // #0F172A
+        vec3 slate = vec3(0.580, 0.639, 0.722); // #94A3B8
+        vec3 col = mix(paper, mix(ink, slate, m * 0.85), dot_);
+        gl_FragColor = vec4(col, 1.0);
       }
     `;
 
@@ -208,6 +218,7 @@ export function PlasmaBlob({ className }: { className?: string }) {
     const uRes = gl.getUniformLocation(prog, "u_res");
     const uPtr = gl.getUniformLocation(prog, "u_ptr");
     const uAmp = gl.getUniformLocation(prog, "u_amp");
+    const uCell = gl.getUniformLocation(prog, "u_cell");
 
     // Pointer state: position eases toward the cursor; energy rises with
     // pointer speed and decays viscously (~1.5s relax).
@@ -252,6 +263,7 @@ export function PlasmaBlob({ className }: { className?: string }) {
       gl!.uniform2f(uRes, canvas!.width, canvas!.height);
       gl!.uniform2f(uPtr, ptr.x, ptr.y);
       gl!.uniform1f(uAmp, ptr.amp);
+      gl!.uniform1f(uCell, Math.max(2, Math.round(1.5 * dpr)));
       gl!.drawArrays(gl!.TRIANGLES, 0, 3);
       canvas!.dataset.painted = "1";
       if (!reduced) raf = requestAnimationFrame(frame);
@@ -276,7 +288,7 @@ export function PlasmaBlob({ className }: { className?: string }) {
         className="absolute inset-0 opacity-0"
         style={{
           background:
-            "radial-gradient(60% 55% at 50% 48%, rgba(160,105,50,0.55) 0%, rgba(245,158,11,0.12) 55%, transparent 75%), #0a0603",
+            "radial-gradient(60% 55% at 50% 48%, rgba(15,23,42,0.35) 0%, rgba(15,23,42,0.08) 55%, transparent 75%), #EFEFF5",
         }}
       />
     </div>

@@ -17,50 +17,50 @@ export default function DemoConfig() {
   return (
     <div className="max-w-[620px] space-y-3">
       <header>
-        <p className="aexis-label">Node configuration</p>
-        <h1 className="aexis-display text-[30px] leading-[36px]">Config</h1>
+        <p className="fe-label">Node configuration</p>
+        <h1 className="fe-display text-[30px] leading-[36px]">Config</h1>
       </header>
 
-      <section className="aexis-shell">
-        <div className="aexis-card p-3">
-          <h2 className="aexis-label mb-3">Identity</h2>
+      <section className="fe-shell">
+        <div className="fe-card p-3">
+          <h2 className="fe-label mb-3">Identity</h2>
           <div className="grid grid-cols-1 gap-2 sm:grid-cols-[1fr_150px]">
             <label className="block">
-              <span className="aexis-label">Node name</span>
+              <span className="fe-label">Node name</span>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="aexis-well mt-1.5 h-9 w-full bg-transparent px-3 text-[10.4px] uppercase tracking-[0.1em]"
+                className="fe-well mt-1.5 h-9 w-full bg-transparent px-3 text-[11px] uppercase tracking-[0.08em]"
               />
             </label>
             <label className="block">
-              <span className="aexis-label">ID</span>
+              <span className="fe-label">ID</span>
               <input
                 type="text"
                 value={nodeId}
                 onChange={(e) => setNodeId(e.target.value)}
                 onBlur={() => setNodeId((v) => v.toUpperCase())}
-                className="aexis-well mt-1.5 h-9 w-full bg-transparent px-3 text-[10.4px] uppercase tracking-[0.1em] tabular-nums"
+                className="fe-well mt-1.5 h-9 w-full bg-transparent px-3 text-[11px] uppercase tracking-[0.08em] tabular-nums"
               />
             </label>
           </div>
         </div>
       </section>
 
-      <section className="aexis-shell">
-        <div className="aexis-card p-3">
-          <h2 className="aexis-label mb-1.5 text-[color:var(--ax-text)]">
+      <section className="fe-shell">
+        <div className="fe-card p-3">
+          <h2 className="fe-label mb-1.5 text-[color:var(--fe-text)]">
             Sampling cadence
           </h2>
-          <p className="aexis-label">
+          <p className="fe-label">
             How often the node reports. Shorter intervals draw harder on the
             capacitor bank during grid peaks.
           </p>
           <div
             role="radiogroup"
             aria-label="Sampling cadence"
-            className="aexis-well mt-3 inline-flex gap-1 rounded-full p-1"
+            className="fe-well mt-3 inline-flex gap-1 rounded-full p-1"
           >
             {INTERVALS.map((v) => {
               const active = v === interval;
@@ -72,10 +72,10 @@ export default function DemoConfig() {
                   aria-checked={active}
                   onClick={() => setInterval_(v)}
                   className={[
-                    "rounded-full px-3.5 py-1.5 text-[10.4px] uppercase tracking-[0.1em] transition-colors duration-150",
+                    "rounded-full px-3.5 py-1.5 text-[11px] uppercase tracking-[0.08em] transition-colors duration-150",
                     active
-                      ? "aexis-glow bg-[color:var(--ax-primary)] text-[#030303]"
-                      : "text-[color:var(--ax-text-dim)] hover:text-[color:var(--ax-text)]",
+                      ? "fe-glow bg-[color:var(--fe-primary)] text-[#EFEFF5]"
+                      : "text-[color:var(--fe-text-dim)] hover:text-[color:var(--fe-text)]",
                   ].join(" ")}
                 >
                   {v}
@@ -86,12 +86,12 @@ export default function DemoConfig() {
         </div>
       </section>
 
-      <section className="aexis-shell">
-        <div className="aexis-card p-3">
-          <h2 className="aexis-label mb-1.5 text-[color:var(--ax-text)]">
+      <section className="fe-shell">
+        <div className="fe-card p-3">
+          <h2 className="fe-label mb-1.5 text-[color:var(--fe-text)]">
             Alerts — write immediately
           </h2>
-          <ul className="divide-y divide-[color:var(--ax-line)]">
+          <ul className="divide-y divide-[color:var(--fe-line)]">
             <Toggle
               label="Density watch threshold"
               hint="Fires when any node holds above 2.0 ×10²⁰ m⁻³ for 10 minutes."
@@ -114,22 +114,22 @@ export default function DemoConfig() {
         </div>
       </section>
 
-      <section className="aexis-shell">
-        <div className="aexis-card border border-[color:var(--ax-primary)]/30 p-3">
-          <h2 className="aexis-label mb-1.5 text-[color:var(--ax-primary)]">
+      <section className="fe-shell">
+        <div className="fe-card border border-[color:var(--fe-primary)]/30 p-3">
+          <h2 className="fe-label mb-1.5 text-[color:var(--fe-primary)]">
             Danger zone
           </h2>
           <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
-            <p className="aexis-label leading-relaxed">
+            <p className="fe-label leading-relaxed">
               Decommissioning retires{" "}
-              <span className="text-[color:var(--ax-text)]">
+              <span className="text-[color:var(--fe-text)]">
                 {name || "this node"}
               </span>{" "}
               from the lattice. Historical telemetry is kept.
             </p>
             <button
               type="button"
-              className="aexis-well shrink-0 px-3.5 py-2 text-[10.4px] uppercase tracking-[0.1em] text-[color:var(--ax-primary)] transition-shadow duration-150 hover:shadow-[0_0_8px_rgba(245,158,11,0.6)] hover:text-[color:var(--ax-secondary)]"
+              className="fe-well shrink-0 px-3.5 py-2 text-[11px] uppercase tracking-[0.08em] text-[color:var(--fe-primary)] transition-shadow duration-150 hover:shadow-[0_0_12px_rgba(148,163,184,0.4)] hover:text-[color:var(--fe-secondary)]"
             >
               Decommission {nodeId || "node"}
             </button>
@@ -154,8 +154,8 @@ function Toggle({
   return (
     <li className="flex items-center justify-between gap-4 py-3">
       <div>
-        <p className="uppercase text-[color:var(--ax-text)]">{label}</p>
-        <p className="aexis-label mt-0.5">{hint}</p>
+        <p className="uppercase text-[color:var(--fe-text)]">{label}</p>
+        <p className="fe-label mt-0.5">{hint}</p>
       </div>
       <button
         type="button"
@@ -163,14 +163,14 @@ function Toggle({
         aria-checked={checked}
         aria-label={label}
         onClick={() => onChange(!checked)}
-        className="aexis-well relative h-6 w-11 shrink-0 rounded-full"
+        className="fe-well relative h-6 w-11 shrink-0 rounded-full"
       >
         <span
           className={[
             "absolute top-[3px] h-4 w-4 rounded-full transition-[left,background-color,box-shadow] duration-150",
             checked
-              ? "aexis-glow left-[24px] bg-[color:var(--ax-primary)]"
-              : "left-[3px] bg-white/30",
+              ? "fe-glow left-[24px] bg-[color:var(--fe-primary)]"
+              : "left-[3px] bg-[rgba(15,23,42,0.25)]",
           ].join(" ")}
         />
       </button>
