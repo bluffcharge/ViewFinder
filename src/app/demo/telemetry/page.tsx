@@ -33,12 +33,12 @@ export default function DemoTelemetry() {
     <div className="space-y-3">
       <header className="flex flex-wrap items-end justify-between gap-2">
         <div>
-          <p className="aexis-label">Sweep archive — last four windows</p>
-          <h1 className="aexis-display text-[30px] leading-[36px]">
+          <p className="fe-label">Sweep archive — last four windows</p>
+          <h1 className="fe-display text-[30px] leading-[36px]">
             Telemetry
           </h1>
         </div>
-        <p className="aexis-label">
+        <p className="fe-label">
           {rows.length} of {ARCHIVE.length} readings
         </p>
       </header>
@@ -48,7 +48,7 @@ export default function DemoTelemetry() {
         <div
           role="radiogroup"
           aria-label="Filter by node"
-          className="aexis-well inline-flex max-w-full gap-1 overflow-x-auto rounded-full p-1"
+          className="fe-well inline-flex max-w-full gap-1 overflow-x-auto rounded-full p-1"
         >
           {NODES.map((n) => {
             const active = n === node;
@@ -60,10 +60,10 @@ export default function DemoTelemetry() {
                 aria-checked={active}
                 onClick={() => setNode(n)}
                 className={[
-                  "shrink-0 rounded-full px-3 py-1.5 text-[10.4px] uppercase tracking-[0.1em] transition-colors duration-150",
+                  "shrink-0 rounded-full px-3 py-1.5 text-[11px] uppercase tracking-[0.08em] transition-colors duration-150",
                   active
-                    ? "bg-[color:var(--ax-primary)] text-[#030303]"
-                    : "text-[color:var(--ax-text-dim)] hover:text-[color:var(--ax-text)]",
+                    ? "bg-[color:var(--fe-primary)] text-[#EFEFF5]"
+                    : "text-[color:var(--fe-text-dim)] hover:text-[color:var(--fe-text)]",
                 ].join(" ")}
               >
                 {n}
@@ -77,24 +77,24 @@ export default function DemoTelemetry() {
           aria-checked={flaggedOnly}
           onClick={() => setFlaggedOnly((v) => !v)}
           className={[
-            "rounded-full border px-3 py-1.5 text-[10.4px] uppercase tracking-[0.1em] transition-colors duration-150",
+            "rounded-full border px-3 py-1.5 text-[11px] uppercase tracking-[0.08em] transition-colors duration-150",
             flaggedOnly
-              ? "border-[color:var(--ax-primary)] text-[color:var(--ax-primary)]"
-              : "border-[color:var(--ax-line)] text-[color:var(--ax-text-dim)] hover:text-[color:var(--ax-text)]",
+              ? "border-[color:var(--fe-primary)] text-[color:var(--fe-primary)]"
+              : "border-[color:var(--fe-line)] text-[color:var(--fe-text-dim)] hover:text-[color:var(--fe-text)]",
           ].join(" ")}
         >
           Watch only
         </button>
       </div>
 
-      <section className="aexis-shell">
-        <div className="aexis-card overflow-hidden">
+      <section className="fe-shell">
+        <div className="fe-card overflow-hidden">
           <table className="hidden w-full text-left sm:table">
             <thead>
-              <tr className="border-b border-[color:var(--ax-line)]">
+              <tr className="border-b border-[color:var(--fe-line)]">
                 {["Time", "Node", "Density", "Temp", "Field", "Conf.", "Flag"].map(
                   (h) => (
-                    <th key={h} className="aexis-label px-3 py-2.5 font-normal">
+                    <th key={h} className="fe-label px-3 py-2.5 font-normal">
                       {h}
                     </th>
                   )
@@ -105,17 +105,17 @@ export default function DemoTelemetry() {
               {rows.map((r, i) => (
                 <tr
                   key={`${r.time}-${i}`}
-                  className="border-b border-[color:var(--ax-line)] last:border-0"
+                  className="border-b border-[color:var(--fe-line)] last:border-0"
                 >
-                  <td className="px-3 py-2.5 tabular-nums text-[color:var(--ax-text-dim)]">{r.time}</td>
-                  <td className="px-3 py-2.5 text-[color:var(--ax-text)]">{r.node}</td>
+                  <td className="px-3 py-2.5 tabular-nums text-[color:var(--fe-text-dim)]">{r.time}</td>
+                  <td className="px-3 py-2.5 text-[color:var(--fe-text)]">{r.node}</td>
                   <td className="px-3 py-2.5 tabular-nums">{r.density.toFixed(2)}</td>
                   <td className="px-3 py-2.5 tabular-nums">{r.tempKeV.toFixed(1)} keV</td>
                   <td className="px-3 py-2.5 tabular-nums">{r.fieldT.toFixed(1)} T</td>
                   <td className="px-3 py-2.5 tabular-nums">{r.confMs} ms</td>
                   <td className="px-3 py-2.5">
                     {r.flagged && (
-                      <span className="inline-flex items-center gap-1.5 rounded-full border border-[color:var(--ax-primary)]/50 px-2 py-0.5 text-[10px] uppercase tracking-[0.1em] text-[color:var(--ax-primary)]">
+                      <span className="inline-flex items-center gap-1.5 rounded-full border border-[color:var(--fe-primary)]/50 px-2 py-0.5 text-[10px] uppercase tracking-[0.08em] text-[color:var(--fe-primary)]">
                         Watch
                       </span>
                     )}
@@ -125,14 +125,14 @@ export default function DemoTelemetry() {
             </tbody>
           </table>
 
-          <ul className="divide-y divide-[color:var(--ax-line)] sm:hidden">
+          <ul className="divide-y divide-[color:var(--fe-line)] sm:hidden">
             {rows.map((r, i) => (
               <li key={`${r.time}-m-${i}`} className="space-y-1 px-3 py-3">
                 <div className="flex items-center justify-between gap-2">
-                  <span className="text-[color:var(--ax-text)]">{r.node}</span>
-                  <span className="aexis-label">{r.time}</span>
+                  <span className="text-[color:var(--fe-text)]">{r.node}</span>
+                  <span className="fe-label">{r.time}</span>
                 </div>
-                <p className="tabular-nums text-[color:var(--ax-text-dim)]">
+                <p className="tabular-nums text-[color:var(--fe-text-dim)]">
                   n {r.density.toFixed(2)} · {r.tempKeV.toFixed(1)} keV ·{" "}
                   {r.fieldT.toFixed(1)} T · {r.confMs} ms
                 </p>
@@ -141,7 +141,7 @@ export default function DemoTelemetry() {
           </ul>
 
           {rows.length === 0 && (
-            <p className="aexis-label px-3 py-6 text-center">
+            <p className="fe-label px-3 py-6 text-center">
               No readings match this filter.
             </p>
           )}

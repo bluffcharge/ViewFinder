@@ -1,0 +1,106 @@
+/* ==========================================================================
+   Stochastic Dither — Form Engine. Demo-only theme, scoped under .fe so it
+   never leaks into the ViewFinder chrome. Light mode: paper #EFEFF5, ink
+   #0F172A, slate support #94A3B8 / #1E293B, Inter body, System display,
+   8px rhythm, 2px / pill radii, glass surfaces framed by a diagonal-hatch
+   "dither" border shell.
+   ========================================================================== */
+
+.fe {
+  --fe-bg:        #EFEFF5;
+  --fe-surface:   rgba(255, 255, 255, 0.55);
+  --fe-primary:   #0F172A;
+  --fe-secondary: #94A3B8;
+  --fe-tertiary:  #1E293B;
+  --fe-text:      #0F172A;
+  --fe-text-dim:  rgba(30, 41, 59, 0.55);
+  --fe-line:      rgba(15, 23, 42, 0.14);
+  --fe-glow:      0 0 12px rgba(148, 163, 184, 0.4);
+
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: var(--fe-text);
+  background: var(--fe-bg);
+}
+
+/* System font for display hierarchy — headlines and big numerals. */
+.fe-display {
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: var(--fe-text);
+}
+
+/* Interface micro-labels: Inter, uppercase, quiet ink. */
+.fe-label {
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fe-text-dim);
+}
+
+/* Dither border shell — the kit's gradient border technique: a diagonal
+   repeating hairline hatch that reads as premium depth instead of a flat
+   stroke. The inset surface carries a slightly smaller radius so the
+   hatch only ever appears as a hairline frame. */
+.fe-shell {
+  padding: 1px;
+  border-radius: 2px;
+  background: repeating-linear-gradient(
+    45deg,
+    #0F172A 0px,
+    #0F172A 1px,
+    rgba(0, 0, 0, 0) 1px,
+    rgba(0, 0, 0, 0) 8px
+  );
+}
+
+/* Glass surface — light glass over paper. */
+.fe-card {
+  background: var(--fe-surface);
+  border-radius: 1px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: rgba(15, 23, 42, 0.05) 0px 25px 50px -12px;
+}
+
+/* Quiet inset well — readouts and form fields. */
+.fe-well {
+  background: rgba(15, 23, 42, 0.04);
+  border: 1px solid var(--fe-line);
+  border-radius: 2px;
+}
+
+/* Slate emphasis halo — active nav, status pill, selected segment. */
+.fe-glow {
+  box-shadow: var(--fe-glow);
+}
+
+/* Slow breathing pulse for live indicators — motion stays minimal. */
+@keyframes fe-breathe {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.35; }
+}
+.fe-pulse {
+  animation: fe-breathe 2000ms ease infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .fe-pulse { animation: none; }
+}
+
+.fe input,
+.fe select,
+.fe textarea {
+  font-family: inherit;
+  color: var(--fe-text);
+}
+
+.fe ::placeholder {
+  color: rgba(30, 41, 59, 0.35);
+}
+
+.fe :focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 1.5px #0F172A, var(--fe-glow);
+}

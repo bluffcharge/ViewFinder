@@ -156,28 +156,28 @@ export function groupPipClass(board: Board, group: string | undefined): string {
 }
 
 /* ------------------------------------------------------------------ */
-/* Demo board — frames the three AEXIS demo screens that ship with the */
+/* Demo board — frames the Form Engine demo screens that ship with the */
 /* app, so the canvas works before you've wired up your own prototype. */
 /* ------------------------------------------------------------------ */
 
-export const DEMO_SPEC = `# AEXIS — review notes
+export const DEMO_SPEC = `# Form Engine — review notes
 
-Demo spec for the AEXIS Plasma Core screens. Sections below map to screens
+Demo spec for the Form Engine (Stochastic Dither) screens. Sections below map to screens
 by their \`## heading\` — use the screen's title or its path. Everything
 here came from a plain markdown file; export from Notion
 (\`⋯ → Export → Markdown\`) or paste your own.
 
 ## Core
 
-The wall-screen view — lattice health and live plasma telemetry at a glance.
+The wall-screen view — lattice health and live telemetry at a glance, in the Stochastic Dither system: paper #EFEFF5, ink #0F172A, Inter body, 8px rhythm.
 
 ### Key requirements
 
-- The output gauge is the hero: net megawatts, a glowing **Nominal** status pill, and the sustained Q factor.
-- The field panel renders specimen IG-77 as a raymarched SDF blob — viscous bronze mass, white specular bloom, blue-violet iridescent rim. Dragging the cursor raises a lobe that relaxes back over ~1.5s; slow breathing pulse and tumble underneath. Static fallback when WebGL is unavailable.
+- The output gauge is the hero: net megawatts, an ink-ringed **Nominal** status pill with a soft slate halo, and the sustained Q factor.
+- The field panel renders Seq 01 as a stochastically dithered form — an ink dot-matrix stipple on paper, dense in shadow, dissolving into scatter at the silhouette. Cursor interference condenses a slate satellite that swirls into the ink; grain reseeds ~5 Hz. Static fallback when WebGL is unavailable.
 - Six readout wells: density, ion temp, field, confinement, net output, Q factor — values in display type, units in mono labels.
 - Telemetry streams newest-first; threshold rows carry a **Watch** chip, never color alone.
-- Glass surfaces sit inside 1px gradient border shells; radii stay in the 1px / 4px / pill family.
+- Glass surfaces sit inside diagonal-hatch border shells (repeating 45° ink hairline); radii stay in the 2px / pill family.
 - Content widens with the viewport — desktop and wide use the horizontal real estate instead of a fixed column.
 
 ## Nodes
@@ -187,19 +187,19 @@ The maintenance view — every containment node by status.
 ### Key requirements
 
 - Three columns by status: Stable, Tuning, Offline — counts in the column headers.
-- Cards carry name, ID, ring position, flux, last sync, and an uptime track (lime for stable, amber for tuning).
+- Cards carry name, ID, ring position, flux, last sync, and an uptime track (dark ink for stable, slate for tuning).
 - Offline nodes read dimmed **and** say "No signal" in text — never color alone.
 - Columns stack vertically on phones — horizontal scrolling is not acceptable on touch.
 
-## Specimen
+## Sequence
 
-The showcase view — the plasma mass alone inside its orbital ring.
+The showcase view — the dithered form alone inside its sampling ring, per the reference capture.
 
 ### Key requirements
 
-- The specimen chamber fills the viewport height; the blob renders over the dotted orbital ring and its six station labels.
-- The satellite droplet condenses from nothing on cursor approach and swirls into the core in a complementary color — oil and water, never blending.
-- Resonance / viscosity / tension / core temp read out beneath the chamber.
+- The chamber fills the viewport height; the form renders over the dashed sampling ring and its six stage labels (Sampler / Gradient / Threshold / Resolve / Drift / Seed).
+- The satellite condenses from nothing on cursor approach and swirls into the core as lighter slate grain — oil and water, never blending.
+- Points / grain / reseed rate / interference read out beneath the chamber.
 
 ## Telemetry
 
@@ -217,7 +217,7 @@ The operations queue — acknowledge from the row.
 
 ### Key requirements
 
-- Severity chips: alarm (amber), watch (gold), info (quiet) — text labels, never color alone.
+- Severity chips: alarm (solid ink), watch (slate), info (quiet) — text labels, never color alone.
 - **Acknowledge** writes immediately, fades the row, and flips to **Reopen**; the open count in the header tracks it.
 - Alarm severities page the on-shift operator; watch items roll into the 08:00 digest.
 
@@ -227,7 +227,7 @@ Demand vs core output across 24 hours.
 
 ### Key requirements
 
-- Amber demand bars with a lime output tick per hour; hover brightens the bar and a title carries the exact numbers.
+- Ink demand bars with a slate output tick per hour; hover deepens the bar and a title carries the exact numbers.
 - The header states the peak hour and the minimum headroom — the chart is evidence, the words are the finding.
 - Four wells below: delivered GWh, capacitor charge, exporting nodes, curtailment events.
 
@@ -237,7 +237,7 @@ The crew roster — who can touch the lattice.
 
 ### Key requirements
 
-- Role chips use the palette roles (Director amber, Operator gold, Maintenance lime, Observer quiet).
+- Role chips stay monochrome (Director ink, Operator dark slate, Maintenance slate, Observer quiet) — the label does the work.
 - Active badges pulse; suspended badges are dim **and** labeled "Suspended".
 - Clearance changes require Director sign-off, stated in the footnote.
 
@@ -248,13 +248,13 @@ Per-node configuration; intentionally calm.
 ### Key requirements
 
 - Name and ID are editable; the ID is uppercased on blur.
-- Sampling cadence is a segmented control — the active segment fills amber and glows.
+- Sampling cadence is a segmented control — the active segment fills ink with paper text.
 - Alert toggles write immediately — no save button for toggles.
 - The danger zone names the node being decommissioned; telemetry is kept.
 `;
 
 export const DEMO_BOARD: Board = {
-  name: "AEXIS — demo board",
+  name: "Form Engine — demo board",
   baseUrl: "",
   screens: [
     {
@@ -267,8 +267,8 @@ export const DEMO_BOARD: Board = {
     {
       id: "demo-specimen",
       path: "/demo/specimen",
-      title: "Specimen",
-      subtitle: "IG-77 · orbital ring · live render",
+      title: "Sequence",
+      subtitle: "Seq 01 · 25,000 pts · dither render",
       group: "Monitor",
     },
     {
