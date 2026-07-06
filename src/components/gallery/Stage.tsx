@@ -100,7 +100,10 @@ function ViewportFrame({ src, spec }: { src: string; spec: ViewportSpec }) {
   return (
     <div
       ref={wrapperRef}
-      className="flex w-full flex-1 items-center justify-center overflow-hidden"
+      // Top-anchored, not centered: when the scale is width-limited the
+      // leftover height collects at the bottom by the filmstrip instead
+      // of opening a dead gap between the toolbar and the frame.
+      className="flex w-full flex-1 items-start justify-center overflow-hidden"
     >
       {scale > 0 && (
         <div
