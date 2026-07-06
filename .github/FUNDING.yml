@@ -1,0 +1,3 @@
+# Shows the "Sponsor" button on the repo — points at the honor-system
+# royalty page on the demo site.
+custom: ["https://tryviewfinder.vercel.app/royalty"]
