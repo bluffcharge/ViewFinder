@@ -126,6 +126,7 @@ auth, no analytics.
 [ViewFinder Honor License](LICENSE) — source-available, free for
 personal use, education, and evaluation. If it becomes part of how your
 team ships paid work, it carries a small royalty (suggested $49/team/
-year) on the honor system: no keys, no telemetry, nobody checking. Say
-hello on LinkedIn or open an issue and we'll sort it out — hearing what
-you're using it for counts for a lot.
+year) on the honor system: no keys, no telemetry, nobody checking.
+Settle up at [tryviewfinder.vercel.app/royalty](https://tryviewfinder.vercel.app/royalty)
+— it takes one GitHub issue, and hearing what you're using it for
+counts for a lot.
