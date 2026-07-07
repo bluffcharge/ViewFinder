@@ -10,9 +10,11 @@ import { useEffect, useRef } from "react";
  * condenses a satellite out of nothing (radius scales with pointer
  * proximity) that merges into the core via smooth-min; the satellite
  * dithers in slate against the core's ink and the two swirl at the
- * seam like oil and water paint rather than blending. Pointer speed
- * adds a surge that relaxes back over ~1.5s, viscous rather than
- * springy. Falls back to a static gradient when WebGL is unavailable,
+ * seam like oil and water paint rather than blending. Dragging charges
+ * the interference electric blue — the satellite's grain and the seam
+ * ignite, sparks thicken the scatter around the cursor — and the
+ * charge drains back to monochrome as the surge relaxes over ~1.5s,
+ * viscous rather than springy. Falls back to a static gradient when WebGL is unavailable,
  * and renders a single still frame under prefers-reduced-motion.
  */
 export function DitherBlob({ className }: { className?: string }) {
@@ -46,9 +48,13 @@ export function DitherBlob({ className }: { className?: string }) {
       uniform float u_amp;  // perturbation energy, decays in JS
       uniform float u_cell; // dither cell size in device pixels
 
-      // Per-cell stochastic threshold.
+      // Per-cell stochastic threshold — sine-free hash; the classic
+      // sin(dot()) hash correlates on integer lattices and streaks the
+      // sparse scatter into diagonal chains.
       float hash(vec2 q) {
-        return fract(sin(dot(q, vec2(127.1, 311.7))) * 43758.5453123);
+        vec3 p3 = fract(vec3(q.xyx) * 0.1031);
+        p3 += dot(p3, p3.yzx + 33.33);
+        return fract((p3.x + p3.y) * p3.z);
       }
 
       // Cheap organic displacement — a few incommensurate sines.
@@ -166,11 +172,23 @@ export function DitherBlob({ className }: { className?: string }) {
           // material seam reads as swirls of differing grain.
           density *= mix(1.0, 0.5, m);
           density = clamp(density, 0.06, 0.85);
-        } else {
+        }
+
+        // Interference charge: pointer energy, decaying viscously in JS.
+        float energy = clamp(u_amp * 1.8, 0.0, 1.0);
+        // Spark falloff around the cursor in screen space, for the
+        // scatter field outside the form.
+        vec2 suv = gl_FragCoord.xy / u_res;
+        vec2 pv = (suv - u_ptr) * vec2(u_res.x / u_res.y, 1.0);
+        float spark = energy * exp(-dot(pv, pv) * 55.0);
+
+        if (!hit) {
           // Scatter halo: stray dots just outside the surface, plus the
           // faintest atmospheric drift across otherwise clean paper.
+          // Interference briefly thickens the scatter around the cursor.
           density = 0.22 * exp(-dmin * 26.0)
-                  + 0.004 * (0.5 + 0.5 * sin(u_t * 0.3));
+                  + 0.004 * (0.5 + 0.5 * sin(u_t * 0.3))
+                  + 0.12 * spark;
         }
 
         // Stochastic threshold per dither cell; the grain re-seeds a few
@@ -179,10 +197,18 @@ export function DitherBlob({ className }: { className?: string }) {
         float seed = floor(u_t * 5.0);
         float dot_ = step(hash(cell + seed * vec2(7.31, 3.17)), density);
 
-        vec3 paper = vec3(0.937, 0.937, 0.961); // #EFEFF5
-        vec3 ink = vec3(0.059, 0.090, 0.165);   // #0F172A
-        vec3 slate = vec3(0.580, 0.639, 0.722); // #94A3B8
-        vec3 col = mix(paper, mix(ink, slate, m * 0.85), dot_);
+        vec3 paper = vec3(0.937, 0.937, 0.961);    // #EFEFF5
+        vec3 ink = vec3(0.059, 0.090, 0.165);      // #0F172A
+        vec3 slate = vec3(0.580, 0.639, 0.722);    // #94A3B8
+        vec3 electric = vec3(0.10, 0.48, 1.0);     // electric blue
+
+        // Charge lights the satellite's grain and the marbled seam while
+        // the drag has energy, then drains back to monochrome.
+        float charge = hit
+          ? energy * smoothstep(0.05, 0.55, m)
+          : clamp(spark * 1.6, 0.0, 1.0);
+        vec3 dotCol = mix(mix(ink, slate, m * 0.85), electric, charge);
+        vec3 col = mix(paper, dotCol, dot_);
         gl_FragColor = vec4(col, 1.0);
       }
     `;
