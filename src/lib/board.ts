@@ -174,7 +174,7 @@ The wall-screen view — lattice health and live telemetry at a glance, in the S
 ### Key requirements
 
 - The output gauge is the hero: net megawatts, an ink-ringed **Nominal** status pill with a soft slate halo, and the sustained Q factor.
-- The field panel renders Seq 01 as a stochastically dithered form — an ink dot-matrix stipple on paper, dense in shadow, dissolving into scatter at the silhouette. Cursor interference condenses a slate satellite that swirls into the ink; grain reseeds ~5 Hz. Static fallback when WebGL is unavailable.
+- The field panel renders Seq 01 as a stochastically dithered form — an ink dot-matrix stipple on paper, dense in shadow, dissolving into scatter at the silhouette. Cursor interference condenses a slate satellite that swirls into the ink and charges the seam electric blue while the drag has energy; grain reseeds ~5 Hz. Static fallback when WebGL is unavailable.
 - Six readout wells: density, ion temp, field, confinement, net output, Q factor — values in display type, units in mono labels.
 - Telemetry streams newest-first; threshold rows carry a **Watch** chip, never color alone.
 - Glass surfaces sit inside diagonal-hatch border shells (repeating 45° ink hairline); radii stay in the 2px / pill family.
@@ -198,7 +198,7 @@ The showcase view — the dithered form alone inside its sampling ring, per the 
 ### Key requirements
 
 - The chamber fills the viewport height; the form renders over the dashed sampling ring and its six stage labels (Sampler / Gradient / Threshold / Resolve / Drift / Seed).
-- The satellite condenses from nothing on cursor approach and swirls into the core as lighter slate grain — oil and water, never blending.
+- The satellite condenses from nothing on cursor approach and swirls into the core as lighter slate grain — oil and water, never blending. Drag energy charges the interference electric blue, draining back to monochrome as it relaxes.
 - Points / grain / reseed rate / interference read out beneath the chamber.
 
 ## Telemetry
