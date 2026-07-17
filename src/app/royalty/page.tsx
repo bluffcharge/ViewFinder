@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 const ISSUE_URL =
-  "https://github.com/bluffcharge/ViewFinder/issues/new?template=royalty.md&title=Royalty%3A+%5Byour+team%5D";
+  "https://github.com/StrategicUX/ViewFinder/issues/new?template=royalty.md&title=Royalty%3A+%5Byour+team%5D";
 
 /**
  * The honor-system landing: linked from the repo's Sponsor button, the
@@ -65,7 +65,7 @@ export default function RoyaltyPage() {
             Open a royalty issue
           </a>
           <a
-            href="https://github.com/bluffcharge/ViewFinder"
+            href="https://github.com/StrategicUX/ViewFinder"
             target="_blank"
             rel="noreferrer"
             className="inline-flex h-10 items-center gap-2 rounded-pill border border-border bg-card px-5 text-[13.5px] font-medium text-ink-body hover:bg-subtle"
@@ -80,7 +80,7 @@ export default function RoyaltyPage() {
           Prefer privacy? Reach Rob Simon on LinkedIn instead. Full terms
           in the{" "}
           <a
-            href="https://github.com/bluffcharge/ViewFinder/blob/main/LICENSE"
+            href="https://github.com/StrategicUX/ViewFinder/blob/main/LICENSE"
             target="_blank"
             rel="noreferrer"
             className="underline underline-offset-2"
