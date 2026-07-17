@@ -35,14 +35,14 @@ that screen is supposed to satisfy sitting right next to it.
 ## Quick start
 
 ```sh
-git clone https://github.com/bluffcharge/ViewFinder
+git clone https://github.com/StrategicUX/ViewFinder
 cd ViewFinder
 npm install
 npm run dev
 ```
 
 Open http://localhost:3000 and click **Try the demo board** to see the
-canvas working against the three demo screens that ship with the app.
+canvas working against the eight demo screens that ship with the app.
 
 ## Set up your own board
 
